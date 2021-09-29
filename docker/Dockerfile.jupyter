@@ -1,0 +1,9 @@
+FROM cvm-five:baselayer  
+ENV BOOT_SCRIPTS=/init \
+    HOME=/
+WORKDIR $HOME
+COPY system/jupyter/ $BOOT_SCRIPTS
+COPY system/common/ $BOOT_SCRIPTS
+EXPOSE 8888
+ENTRYPOINT [ "bash", "/init/start.sh" ]
+CMD [ "--wait" ]

@@ -1,0 +1,43 @@
+### Extending cvm-baseimage ###
+FROM cvm-five:baselayer as base
+FROM centos:centos8 as builder
+ENV BUILD_DIR=/build \
+    BUILD_SCRIPTS=/build_scripts \
+    INSTALL_SCRIPTS_LOC=\system/vnc/install \
+    NO_VNC_HOME=/noVNC \
+    FXCE_HOME=/fxce
+COPY --from=base / /$BUILD_DIR
+RUN mkdir $BUILD_SCRIPTS
+### Installing extentions ###
+COPY $INSTALL_SCRIPTS_LOC/builder_extension.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/builder_extension.sh
+### TigerVNC ###
+COPY $INSTALL_SCRIPTS_LOC/install_tigervnc.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/install_tigervnc.sh
+### noVNC ###
+COPY $INSTALL_SCRIPTS_LOC/install_novnc.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/install_novnc.sh
+### Xfce ###
+COPY $INSTALL_SCRIPTS_LOC/install_xfce.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/install_xfce.sh
+
+### Final Stage ###
+FROM scratch 
+COPY --from=builder /build /
+ENV BOOT_SCRIPTS=/init \
+    DISPLAY=:1 \
+    NO_VNC_HOME=/noVNC \
+    VNC_PORT=5901 \
+    NO_VNC_PORT=6901 \
+    TERM=xterm \
+    VNC_COL_DEPTH=24 \
+    VNC_RESOLUTION=1280x1024 \
+    VNC_PW=vncpassword \
+    VNC_VIEW_ONLY=false \
+    HOME=/
+COPY /system/vnc/boot/ $BOOT_SCRIPTS
+COPY system/common/ $BOOT_SCRIPTS
+EXPOSE $VNC_PORT $NO_VNC_PORT 
+WORKDIR $HOME
+ENTRYPOINT [ "bash", "/init/start.sh" ]
+CMD [ "--wait" ]

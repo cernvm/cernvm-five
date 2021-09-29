@@ -1,0 +1,34 @@
+### Pre-Stage ###
+FROM centos:centos8 AS pre
+ENV BUILD_SCRIPTS=/build_scripts \
+    INSTALL_SCRIPTS=/install \
+    HOME=/ \
+    BUILD_DIR=/build \
+    CONFIG_DIR=/config
+    
+WORKDIR $HOME
+RUN mkdir $BUILD_SCRIPTS
+### Install builder packages ###
+COPY /system/base/$INSTALL_SCRIPTS/install_builder.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/install_builder.sh
+
+### Build-Stage ###
+FROM pre AS builder
+WORKDIR $HOME
+RUN mkdir build
+### Install cvmfs, HEP_OSlibs, dnf into /build ###
+COPY /system/base/$INSTALL_SCRIPTS/install_cvmfs.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/install_cvmfs.sh
+
+### Light-Stage ###
+FROM builder as light
+WORKDIR $HOME
+### Removing some packages and caches ###
+COPY /system/base/minimization/minimization.sh $BUILD_SCRIPTS
+RUN bash $BUILD_SCRIPTS/minimization.sh
+
+### Baselayer-Stage ###
+FROM scratch as baselayer
+COPY --from=light /build /
+COPY /config/cvmfs/default.local /etc/cvmfs/
+WORKDIR /
