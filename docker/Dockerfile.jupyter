@@ -1,4 +1,10 @@
-FROM cvm-five:baselayer  
+### This file is part of CernVM 5.
+### CernVM 5 baselayer with start-up logic for a local Jupyter notebook and the mounting cvmfs###
+FROM cvm-five:baselayer 
+ENV REFRESHED_AT=08/10/2021
+LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
+      io.k8s.display-name="CernVM 5 Jupyter" \
+      io.k8s.description="A dockerimage providing cvmfs, HEP_OSlibs and scripts to start a local jupyter notebook" 
 ENV BOOT_SCRIPTS=/init \
     HOME=/
 WORKDIR $HOME

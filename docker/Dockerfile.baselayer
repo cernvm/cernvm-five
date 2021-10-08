@@ -1,11 +1,18 @@
-### Pre-Stage ###
+### This file is part of CernVM 5.
+### This is a multi-stage Dockerfile used for building the baselayer of CernVM 5. 
+### The final Image contains a cvmfs client and the HEP_OSlibs. It can be used to derive from it. 
+
+### Preparing a EL8-based builder container ###
 FROM centos:centos8 AS pre
+ENV REFRESHED_AT=08/10/2021
+LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
+      io.k8s.display-name="CernVM 5 baselayer" \
+      io.k8s.description="A dockerimage providing cvmfs and HEP_OSlibs"
 ENV BUILD_SCRIPTS=/build_scripts \
     INSTALL_SCRIPTS=/install \
     HOME=/ \
     BUILD_DIR=/build \
-    CONFIG_DIR=/config
-    
+    CONFIG_DIR=/config   
 WORKDIR $HOME
 RUN mkdir $BUILD_SCRIPTS
 ### Install builder packages ###
@@ -13,21 +20,23 @@ COPY /system/base/$INSTALL_SCRIPTS/install_builder.sh $BUILD_SCRIPTS
 RUN bash $BUILD_SCRIPTS/install_builder.sh
 
 ### Build-Stage ###
+### Installing into /build via rootinstall ###
 FROM pre AS builder
 WORKDIR $HOME
 RUN mkdir build
-### Install cvmfs, HEP_OSlibs, dnf into /build ###
+### Install cvmfs, HEP_OSlibs and dnf into /build ###
 COPY /system/base/$INSTALL_SCRIPTS/install_cvmfs.sh $BUILD_SCRIPTS
 RUN bash $BUILD_SCRIPTS/install_cvmfs.sh
 
 ### Light-Stage ###
 FROM builder as light
 WORKDIR $HOME
-### Removing some packages and caches ###
+### Removing some unnecessary packages and caches ###
 COPY /system/base/minimization/minimization.sh $BUILD_SCRIPTS
 RUN bash $BUILD_SCRIPTS/minimization.sh
 
 ### Baselayer-Stage ###
+### Copying /build to scratch ###
 FROM scratch as baselayer
 COPY --from=light /build /
 COPY /config/cvmfs/default.local /etc/cvmfs/

@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+# This file is part of CernVM 5.
 set -e
 
 # Packages needed for the builder stage

@@ -1,6 +1,7 @@
 #!/bin/bash
+# This file is part of CernVM 5.
 echo "----------------------------------------------------------"
 date
-# mounting cvmfs
+# Mounting cvmfs
 bash /init/mount.sh
 bash

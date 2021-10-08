@@ -1,5 +1,10 @@
-### Extending cvm-baseimage ###
+### This file is part of CernVM 5.
+### This Dockerfile is derived from the Cvm5 baselayer and adds a VNC server, noVNC Client and a Desktop Environment
 FROM cvm-five:baselayer as base
+ENV REFRESHED_AT=08/10/2021
+LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
+      io.k8s.display-name="CernVM 5 VNC" \
+      io.k8s.description="A dockerimage providing cvmfs, HEP_OSlibs, TigerVNC, noVNC and Xfce DE" 
 FROM centos:centos8 as builder
 ENV BUILD_DIR=/build \
     BUILD_SCRIPTS=/build_scripts \
