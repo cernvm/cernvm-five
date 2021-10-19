@@ -9,5 +9,15 @@ thisdir=$(readlink -f ${thisdir})
 if [ -z "${PATH}" ]; then
     PATH=${thisdir}/bin; export PATH
 else
-    PATH=${thisdir}/bin:$PATH; export PATH
+    PATH=$PATH:${thisdir}/bin; export PATH
+fi
+
+# LD_LIBRARY_PATH
+if [ -z "${LD_LIBRARY_PATH}" ]; then
+    LD_LIBRARY_PATH=${thisdir}/lib; export LD_LIBRARY_PATH
+else
+    LD_LIBRARY_PATH=${thisdir}/lib:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH
+fi
+if [ -d ${thisdir}/lib64 ]; then
+    LD_LIBRARY_PATH=${thisdir}/lib64:$LD_LIBRARY_PATH; export LD_LIBRARY_PATH
 fi
