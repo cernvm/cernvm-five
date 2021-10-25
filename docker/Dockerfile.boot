@@ -2,7 +2,7 @@
 ### CernVM 5 with start-up logic ###
 ### This Dockerfile is derived from the Cvm5 baselayer and adds some startup scripts to auto-mount cvmfs
 ### on startup.
-FROM cvm-five:baselayer 
+FROM cvm-five:baselayer
 ENV REFRESHED_AT=08/10/2021
 LABEL LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
       io.k8s.display-name="CernVM 5 Boot" \

@@ -36,6 +36,8 @@ RUN bash $BUILD_SCRIPTS/minimization.sh
 FROM scratch as baselayer
 COPY --from=light /build /
 COPY /config/cvmfs/default.local /etc/cvmfs/
+COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.conf /etc/cvmfs/config.d/
+COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.pub /etc/cvmfs/keys/
 ENV REFRESHED_AT="08/10/2021"
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
       io.k8s.display-name="CernVM 5 baselayer" \
