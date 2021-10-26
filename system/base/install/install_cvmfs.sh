@@ -16,3 +16,8 @@ dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install
 # cvmfs
 sudo dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False  -y https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  
 sudo dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False cvmfs 
+
+
+# create mountpoints for user
+mkdir $BUILD_DIR/workspace
+mkdir $BUILD_DIR/data
