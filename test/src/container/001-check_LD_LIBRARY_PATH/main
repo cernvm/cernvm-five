@@ -1,0 +1,14 @@
+
+cvm_test_name="Check  LD_LIBRARY_PATH"
+cvm_test_suites="container"
+
+# checks if $LD_LIBRARY_PATH is set
+cvm_run_test() {
+  if [[  "$LD_LIBRARY_PATH" != "" ]]; then
+        log "Failed:LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+        return 1
+  fi
+log "$cvm_test_name OK"
+  return 0
+}
+
