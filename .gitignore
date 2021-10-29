@@ -1,3 +1,2 @@
-Dockerfile.jupyter
-Dockerfile.vnc
 *.local
+test.log

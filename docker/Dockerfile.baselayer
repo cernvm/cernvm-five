@@ -38,13 +38,13 @@ COPY --from=light /build /
 COPY /config/cvmfs/default.local /etc/cvmfs/
 COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.conf /etc/cvmfs/config.d/
 COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.pub /etc/cvmfs/keys/
-### PATH for LCG Gentoo Prefix ###
-RUN export PATH=$PATH:/cvmfs/sft.cern.ch/lcg/contrib/gentoo/linux:\
-/cvmfs/sft.cern.ch/lcg/contrib/gentoo/linux/bin:\
-/cvmfs/sft.cern.ch/lcg/contrib/gentoo/linux/sbin:\
-/cvmfs/sft.cern.ch/lcg/contrib/gentoo/linux/usr/bin:\
-/cvmfs/sft.cern.ch/lcg/contrib/gentoo/linux/usr/sbin:
-ENV REFRESHED_AT="08/10/2021"
+### PATH for cernvm-five.cern.ch Gentoo Prefix ###
+RUN export PATH=$PATH:/cvmfs/cernvm-five.cern.ch/platform/usr/local/sbin\
+:/cvmfs/cernvm-five.cern.ch/platform/usr/local/bin\
+:/cvmfs/cernvm-five.cern.ch/platform/usr/sbin\
+:/cvmfs/cernvm-five.cern.ch/platform/usr/bin\
+:/cvmfs/cernvm-five.cern.ch/platform/sbin\
+:/cvmfs/cernvm-five.cern.ch/platform/bin
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
       io.k8s.display-name="CernVM 5 baselayer" \
       io.k8s.description="A dockerimage providing cvmfs and HEP_OSlibs"
