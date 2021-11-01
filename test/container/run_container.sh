@@ -52,13 +52,13 @@ thisdir=$(readlink -f ${thisdir})
 log "Workingdirectory:"$thisdir
 log "#Testcases:$num_tests"
 
-# check podman (tmp docker)
-docker --version  
+# check podman 
+podman --version  
 if [ $? -ne 0 ]; then
-  log "Docker not installed... Abort"
+  log "Podman not installed... Abort"
   exit 1
 else 
-  log "Running $(docker --version)"
+  log "Running $(podman --version)"
 fi
 
 # Check image
@@ -75,7 +75,7 @@ host_test_dir=$thisdir
 container_test_dir=/test
 workspace_host=$thisdir/workspace_host
 
-#draft
+
 # check host cvmfs config and run container with /test, /workspace and /cvmfs mounted
 if [ $3 == "-h" ]; then
   log "Option -h: Probing host CernVM FS"
@@ -87,11 +87,11 @@ if [ $3 == "-h" ]; then
 
     log "Starting Container and tests..."
   log "--------------------------------"
-  docker run --rm -it                \
+  podman run --rm -it                \
   --device /dev/fuse                 \
   --cap-add SYS_ADMIN                \
   -v /cvmfs:/cvmfs:ro                \
-  -v $thisdir:/test \
+  -v $thisdir:/test:Z                  \
   -v $workspace_host:/workspace:Z    \
   $image bash $container_test_dir/run.sh $logfile $4
 fi
@@ -100,7 +100,7 @@ fi
 if [ $3 == "-i" ]; then
   log "Option -i: Starting Container and tests..."
   log "------------------------------------------"
-  docker run --rm -it             \
+  podman run --rm -it             \
   --device /dev/fuse              \
   --cap-add SYS_ADMIN             \
   -v $test_dir:$container_test_dir:Z            \
