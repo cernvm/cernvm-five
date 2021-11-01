@@ -52,23 +52,23 @@ thisdir=$(readlink -f ${thisdir})
 log "Workingdirectory:"$thisdir
 log "#Testcases:$num_tests"
 
-# # check podman
-# podman --version  
-# if [ $? -ne 0 ]; then
-#   log "Podman not installed... Abort"
-#   exit 1
-# else 
-#   log "Running $(podman --version)"
-# fi
+# check podman (tmp docker)
+docker --version  
+if [ $? -ne 0 ]; then
+  log "Docker not installed... Abort"
+  exit 1
+else 
+  log "Running $(docker --version)"
+fi
 
-# # Check image
-# str=$(podman image ls $image)
-# if [[ "$str" == *"$image"* ]]; then 
-#   log "Image $image available"
-# else 
-#   log "Image $image not available... Abort"
-#   exit 1
-# fi
+# Check image
+#str=$(docker image ls $image)
+#if [[ "$str" == *"$image"* ]]; then 
+#  log "Image $image available"
+#else 
+#  log "Image $image not available... Abort"
+#  exit 1
+#fi
 
 #directories to be mounted during tests
 test_dir=$thisdir
@@ -81,28 +81,30 @@ if [ $3 == "-h" ]; then
   log "Option -h: Probing host CernVM FS"
   cvmfs_config probe
   if [ $? != "0" ]; then
-    log "No CernVM FS Client on host... Abort"
+    log "Probing CernVM FS Client failed... Abort"
     exit 1
   fi
 
-  log "Starting Container and tests..."
-  podman run --rm -it             \
+    log "Starting Container and tests..."
+  log "--------------------------------"
+  docker run --rm -it             \
   --device /dev/fuse              \
   --cap-add SYS_ADMIN             \
   -v /cvmfs:/cvmfs:ro             \
   -v $test_dir:/test:Z            \
   -v $workspace_host:/workspace:Z \
-  $image /test/run.sh 
+  $image bash /test/run.sh $logfile $testsuite
 	
 fi
 
 # run container with /test and /workspace mounted
 if [ $3 == "-i" ]; then
   log "Option -i: Starting Container and tests..."
-  podman run --rm -it             \
+  log "------------------------------------------"
+  docker run --rm -it             \
   --device /dev/fuse              \
   --cap-add SYS_ADMIN             \
   -v $test_dir:/test:Z            \
   -v $workspace_host:/workspace:Z \
-  $image /test/run.sh
+  $image /test/run.sh $logfile $testsuite
 fi

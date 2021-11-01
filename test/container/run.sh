@@ -1,6 +1,13 @@
 #!/bin/bash
 # Running the tests inside the container
-. ./run_container.sh
+logfile=$1
+testsuite=$2
+test_dir=/test
+# logger
+log() {
+echo '['$(date +"%D %T %z")'][C]' $1 | tee -a $logfile
+}
+cd $test_dir
 for t in "${testsuite[@]}"
 do
   . ./src/$t/main
@@ -9,3 +16,4 @@ do
 done
 log "Tests done... stopping container"
 exit
+
