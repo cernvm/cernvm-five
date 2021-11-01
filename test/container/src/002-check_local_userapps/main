@@ -1,0 +1,24 @@
+#!/bin/bash
+cvm_test_name="Check check_local_userapps"
+
+# checks for unintentionally locally installed applications
+cvm_run_test() {
+fail="false"
+apps=("nano", "ping")
+for a in "${apps[@]}"
+do
+  which $a
+  if [ $? == "0" ]; then
+    export fail="true"
+    log "found ${a} in local path"
+  fi
+done
+ 
+if [ $fail == "true" ]; then
+return 1
+fi
+
+  return 0
+}
+
+
