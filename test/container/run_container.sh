@@ -70,8 +70,13 @@ log "#Testcases:$num_tests"
 #   exit 1
 # fi
 
+#directories to be mounted during tests
+test_dir=$thisdir
+workspace_host=$thisdir/workspace_host
+mkdir $workspace_host
+
 #draft
-# check host cvmfs config and run container with /test and /cvmfs mounted
+# check host cvmfs config and run container with /test, /workspace and /cvmfs mounted
 if [ $3 == "-h" ]; then
   log "Option -h: Probing host CernVM FS"
   cvmfs_config probe
@@ -80,12 +85,24 @@ if [ $3 == "-h" ]; then
     exit 1
   fi
 
+  log "Starting Container and tests..."
+  podman run --rm -it             \
+  --device /dev/fuse              \
+  --cap-add SYS_ADMIN             \
+  -v /cvmfs:/cvmfs:ro             \
+  -v $test_dir:/test:Z            \
+  -v $workspace_host:/workspace:Z \
+  $image /test/run.sh 
+	
 fi
 
-# Running the tests
-for t in "${testsuite[@]}"
-do
-  . ./src/$t/main
-  log "Started $cvm_test_name"
-  cvm_run_test 
-done
+# run container with /test and /workspace mounted
+if [ $3 == "-i" ]; then
+  log "Option -i: Starting Container and tests..."
+  podman run --rm -it             \
+  --device /dev/fuse              \
+  --cap-add SYS_ADMIN             \
+  -v $test_dir:/test:Z            \
+  -v $workspace_host:/workspace:Z \
+  $image /test/run.sh
+fi
