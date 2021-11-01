@@ -5,13 +5,16 @@ testsuite=$2
 test_dir=/test
 passed=0
 failed=0
-num_tests=${#testsuite[@]}
 
 # logger
 log() {
-echo '['$(date +"%D %T %z")'][C]' $1 | tee -a $logfile
+  echo '['$(date +"%D %T %z")'][C]' $1 | tee -a $logfile
 }
+
 cd $test_dir
+
+mapfile -t testsuite < $2
+num_tests=${#testsuite[@]}
 
 for t in "${testsuite[@]}"
 do

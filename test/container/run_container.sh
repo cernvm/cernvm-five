@@ -71,9 +71,9 @@ fi
 #fi
 
 #directories to be mounted during tests
-test_dir=$thisdir
+host_test_dir=$thisdir
+container_test_dir=/test
 workspace_host=$thisdir/workspace_host
-mkdir $workspace_host
 
 #draft
 # check host cvmfs config and run container with /test, /workspace and /cvmfs mounted
@@ -87,14 +87,13 @@ if [ $3 == "-h" ]; then
 
     log "Starting Container and tests..."
   log "--------------------------------"
-  docker run --rm -it             \
-  --device /dev/fuse              \
-  --cap-add SYS_ADMIN             \
-  -v /cvmfs:/cvmfs:ro             \
-  -v $test_dir:/test:Z            \
-  -v $workspace_host:/workspace:Z \
-  $image bash /test/run.sh $logfile $testsuite
-	
+  docker run --rm -it                \
+  --device /dev/fuse                 \
+  --cap-add SYS_ADMIN                \
+  -v /cvmfs:/cvmfs:ro                \
+  -v $thisdir:/test \
+  -v $workspace_host:/workspace:Z    \
+  $image bash $container_test_dir/run.sh $logfile $4
 fi
 
 # run container with /test and /workspace mounted
@@ -104,7 +103,7 @@ if [ $3 == "-i" ]; then
   docker run --rm -it             \
   --device /dev/fuse              \
   --cap-add SYS_ADMIN             \
-  -v $test_dir:/test:Z            \
+  -v $test_dir:$container_test_dir:Z            \
   -v $workspace_host:/workspace:Z \
-  $image /test/run.sh $logfile $testsuite
+  $image $container_test_dir/run.sh $logfile $4
 fi
