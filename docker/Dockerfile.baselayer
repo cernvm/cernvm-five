@@ -31,6 +31,7 @@ WORKDIR $HOME
 COPY /system/base/minimization/minimization.sh $BUILD_SCRIPTS
 RUN bash $BUILD_SCRIPTS/minimization.sh
 
+# todo: Change to single layered final image
 ### Baselayer-Stage ###
 ### Copying /build to scratch ###
 FROM scratch as baselayer
