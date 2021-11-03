@@ -1,3 +1,4 @@
 *.local
 *.log
-/workspace_host
+**/workspace_host
+

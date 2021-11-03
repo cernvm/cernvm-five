@@ -1,5 +1,6 @@
 #!/bin/bash
 # This file is part of CernVM 5.
+# Starts a Jupyter notebook on port 8888
 set -e
 date
 # Mounting cvmfs
