@@ -17,4 +17,5 @@ buildah push --format "$OUTPUT_FORMAT" "$NAME:$TAG" docker-archive:"$BUILD_DIR/$
 buildah images
 cd $BUILD_DIR
 gzip -k -v "$NAME.tar"
+# move to host mountpoint $DEST_DIR
 mv cvm-five.tar.gz $DEST_DIR/${NAME}_${TAG}.tar.gz
