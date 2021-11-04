@@ -30,15 +30,16 @@ WORKDIR $HOME
 ### Removing some unnecessary packages and caches ###
 COPY /system/base/minimization/minimization.sh $BUILD_SCRIPTS
 RUN bash $BUILD_SCRIPTS/minimization.sh
+### Adding config files and runtime scripts ###
+COPY /config/cvmfs/default.local $BUILD_DIR/etc/cvmfs/
+COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.conf $BUILD_DIR/etc/cvmfs/config.d/
+COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.pub $BUILD_DIR/etc/cvmfs/keys/
+COPY /system/common/mount.sh $BUILD_DIR/
 
-# todo: Change to single layered final image
 ### Baselayer-Stage ###
 ### Copying /build to scratch ###
 FROM scratch as baselayer
 COPY --from=light /build /
-COPY /config/cvmfs/default.local /etc/cvmfs/
-COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.conf /etc/cvmfs/config.d/
-COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.pub /etc/cvmfs/keys/
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" \
       io.k8s.display-name="CernVM 5 baselayer" \
       io.k8s.description="A dockerimage providing cvmfs and HEP_OSlibs"
