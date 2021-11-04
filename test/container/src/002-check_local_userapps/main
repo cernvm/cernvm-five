@@ -1,5 +1,5 @@
 #!/bin/bash
-cvm_test_name="Check check_local_userapps"
+cvm_test_name="check_local_userapps"
 
 # checks for unintentionally locally installed applications
 cvm_run_test() {

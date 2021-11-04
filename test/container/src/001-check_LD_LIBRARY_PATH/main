@@ -1,5 +1,5 @@
 #!/bin/bash
-cvm_test_name="Check  LD_LIBRARY_PATH"
+cvm_test_name="LD_LIBRARY_PATH"
 
 # checks if $LD_LIBRARY_PATH is set
 cvm_run_test() {

@@ -1,40 +1,44 @@
 #!/bin/bash
 usage() {
-  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i or from host -h> <testsuite>"
+  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i or from host -h> <testsuite> <skip>"
 }
 
 logfile=$1
 if [ -z $logfile ]; then
-  echo "No logfile specified"
   usage
   exit 1
 fi
 
 image=$2
 if [ -z $image ]; then
-  echo "No given image"
   usage
   exit 1
 fi
 
-if [ $3 != "-i" ] && [ $3 != "-h" ]; then
-  echo "Specify how to mount CernVM FS"
+cvmfs_mount=$3
+if [ $cvmfs_mount != "-i" ] && [ $cvmfs_mount != "-h" ]; then
   usage
   exit 1
 fi
 
-if [ -z $4 ]; then
-  echo "No given testsuite"
+testsuite=$4
+if [ -z $testsuite ]; then
   usage
   exit 1
 fi
 
-mapfile -t testsuite < $4
-num_tests=${#testsuite[@]}
-if [ $num_tests -le 0 ]; then
-  echo "Zero tests in testsuite $3"
+skip=$5
+if [ -z $skip ]; then
+  usage
   exit 1
 fi
+
+# mapfile -t testsuite < $4
+# num_tests=${#testsuite[@]}
+# if [ $num_tests -le 0 ]; then
+#   echo "Zero tests in testsuite $3"
+#   exit 1
+# fi
 
 # logger
 log() {
@@ -50,15 +54,15 @@ SOURCE=${BASH_ARGV[0]}
 thisdir=$(cd "$(dirname "${SOURCE}")"; pwd)
 thisdir=$(readlink -f ${thisdir})
 log "Workingdirectory:"$thisdir
-log "#Testcases:$num_tests"
 
-# check podman 
-podman --version  
+
+# check docker 
+docker --version  
 if [ $? -ne 0 ]; then
-  log "Podman not installed... Abort"
+  log "docker not installed... Abort"
   exit 1
 else 
-  log "Running $(podman --version)"
+  log "Running $(docker --version)"
 fi
 
 # Check image
@@ -75,19 +79,18 @@ host_test_dir=$thisdir
 container_test_dir=/test
 workspace_host=$thisdir/workspace_host
 
-
 # check host cvmfs config and run container with /test, /workspace and /cvmfs mounted
-if [ $3 == "-h" ]; then
+if [ $cvmfs_mount == "-h" ]; then
   log "Option -h: Probing host CernVM FS"
   cvmfs_config probe
-  if [ $? != "0" ]; then
+  if [ $cvmfs_mount != "0" ]; then
     log "Probing CernVM FS Client failed... Abort"
     exit 1
   fi
 
-    log "Starting Container and tests..."
+  log "Starting Container and tests..."
   log "--------------------------------"
-  podman run --rm -it                \
+  docker run --rm -it                \
   --device /dev/fuse                 \
   --cap-add SYS_ADMIN                \
   -v /cvmfs:/cvmfs:ro                \
@@ -97,13 +100,13 @@ if [ $3 == "-h" ]; then
 fi
 
 # run container with /test and /workspace mounted
-if [ $3 == "-i" ]; then
+if [ $cvmfs_mount == "-i" ]; then
   log "Option -i: Starting Container and tests..."
   log "------------------------------------------"
-  podman run --rm -it             \
+  docker run --rm -it             \
   --device /dev/fuse              \
   --cap-add SYS_ADMIN             \
-  -v $test_dir:$container_test_dir:Z            \
+  -v $host_test_dir:$container_test_dir:Z            \
   -v $workspace_host:/workspace:Z \
-  $image $container_test_dir/run.sh $logfile $4
+  $image $container_test_dir/run.sh $logfile $cvmfs_mount $testsuite $skip
 fi

@@ -1,0 +1,12 @@
+#!/bin/bash
+cvm_test_name="run_mount_script"
+cvmfs_style="-h"
+
+# runs /mount.sh
+cvm_run_test() {
+  bash /mount.sh
+  res=$?
+
+  return $res
+}
+
