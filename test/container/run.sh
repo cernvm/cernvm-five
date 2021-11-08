@@ -105,6 +105,7 @@ num_tests=${#testsuite[@]}
 mapfile -t skip < $skip
 
 # Run the tests
+#todo: implement xUnit
 for t in "${testsuite[@]}"
 do
   . ./src/$t/main
