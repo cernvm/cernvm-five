@@ -1,11 +1,7 @@
 #!/bin/bash
-# Running the tests inside the container
-test_dir=/test
-passed=()
-failed=()
-
+# Checks host and runs test 
 usage() {
-  echo "$0 </path/to/logfile> <mount /cvmfs inside -i or from host -h> <testsuite> <skip>"
+  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i or from host -h> <testsuite> <skip>"
 }
 
 logfile=$1
@@ -14,19 +10,25 @@ if [ -z $logfile ]; then
   exit 1
 fi
 
-cvmfs_mount=$2
-if [ -z $cvmfs_mount ]; then
+image=$2
+if [ -z $image ]; then
   usage
   exit 1
 fi
 
-testsuite=$3
+cvmfs_mount=$3
+if [ $cvmfs_mount != "-i" ] && [ $cvmfs_mount != "-h" ]; then
+  usage
+  exit 1
+fi
+
+testsuite=$4
 if [ -z $testsuite ]; then
   usage
   exit 1
 fi
 
-skip=$4
+skip=$5
 if [ -z $skip ]; then
   usage
   exit 1
@@ -34,28 +36,73 @@ fi
 
 # logger
 log() {
-  echo '['$(date +"%D %T %z")'][C]' $1 | tee -a $logfile
+echo '['$(date +"%D %T %z")']' $1 | tee -a $logfile
 }
 
-cd $test_dir
+log "Hostname: $(hostname)"
+log "Image: $image"
+log 
 
+# thisdir
+SOURCE=${BASH_ARGV[0]}
+thisdir=$(cd "$(dirname "${SOURCE}")"; pwd)
+thisdir=$(readlink -f ${thisdir})
+log "Workingdirectory:"$thisdir
+
+
+# Checks dockerinstallation
+check_docker() {
+docker --version  
+if [ $? -ne 0 ]; then
+  log "docker not installed... Abort"
+  exit 1
+else 
+  log "Running $(docker --version)"
+fi
+}
+
+# Checks for dockerimage to be tested
+Check_docker_image() {
+str=$(docker image ls $image)
+if [[ "$str" == *"$image"* ]]; then 
+ log "Image $image available"
+else 
+ log "Image $image not available... Abort"
+ exit 1
+fi
+}
+
+#directories to be mounted during tests
+host_test_dir=$thisdir
+container_test_dir=/test
+workspace_host=$thisdir/workspace_host
+
+# Runs docker container with /test mounted and CernVM FS mounted inside
+run_docker_inside() {
+  docker run --rm -it                      \
+  --device /dev/fuse                       \
+  --cap-add SYS_ADMIN                      \
+  -v $host_test_dir:$container_test_dir:Z  \
+  -v $workspace_host:/workspace:Z          \
+  $image bash $container_test_dir/src/$1
+  
+}
+
+# Runs docker container with /test mounted and CernVM FS from host
+ run_docker_host() {
+  docker run --rm -it                     \
+  --device /dev/fuse                      \
+  --cap-add SYS_ADMIN                     \
+  -v /cvmfs:/cvmfs:ro                     \
+  -v $thisdir:/test:Z                     \
+  -v $workspace_host:/workspace:Z         \
+  $image bash $container_test_dir/src/$1
+}
+
+# Mapping testsuite and skipped tests
 mapfile -t testsuite < $testsuite
 num_tests=${#testsuite[@]}
 mapfile -t skip < $skip
-# todo: fix mountstyle 
-for t in "${testsuite[@]}"
-do
-  . ./src/$t/main
-  log "$cvmfs_style ---------------------------------------"
-  if [ -z $cvmfs_style ]; then
-    if [ $cvmfs_style != $cvmfs_mount ]; then
-      skip+=("$t")
-      log "Skipping $t, testcase for CernVM mountstyle $cvmfs_style"
-    fi
-  fi
-done
-
-
 
 for t in "${testsuite[@]}"
 do
@@ -79,6 +126,7 @@ do
    echo
 done
 
+# Summary
 log "PASSED:"
 for p in "${passed[@]}"
 do
@@ -104,8 +152,3 @@ log "Summary:"
 log "${#passed[@]} of ${num_tests} tests passed"
 log "${#failed[@]} of ${num_tests} tests failed"
 log "${#skip[@]} of ${num_tests} tests skipped"
-
-
-# leaving container
-exit
-

@@ -1,12 +1,10 @@
 #!/bin/bash
-cvm_test_name="run_mount_script"
-cvmfs_style="-h"
-
 # runs /mount.sh
+cvm_test_name="run_mount_script"
 cvm_run_test() {
-  bash /mount.sh
+  run_docker_inside $t/script.sh
   res=$?
-
+  log "Test $cvm_test_name returned"
   return $res
 }
 
