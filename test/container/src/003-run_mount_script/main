@@ -1,6 +1,7 @@
 #!/bin/bash
 # runs /mount.sh
 cvm_test_name="run_mount_script"
+tags=("-i" "-h")
 cvm_run_test() {
   run_docker_inside $t/script.sh
   res=$?

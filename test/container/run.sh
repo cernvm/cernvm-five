@@ -1,7 +1,7 @@
 #!/bin/bash
 # Checks host and runs test 
 usage() {
-  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i or from host -h> <testsuite> <skip>"
+  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip>"
 }
 
 logfile=$1
@@ -104,10 +104,18 @@ mapfile -t testsuite < $testsuite
 num_tests=${#testsuite[@]}
 mapfile -t skip < $skip
 
+# Run the tests
 for t in "${testsuite[@]}"
 do
   . ./src/$t/main
-  if  echo "${skip[@]}" | grep -q "$t" ; then
+
+  # Check CernVM mount specification
+  if [[ ! "${tags[*]}" =~ "$cvmfs_mount" ]]; then
+    skip+=("$t")
+    log "Adding $t to tests to be skipped..." 
+  fi
+
+  if [[ "${skip[*]}" =~ "$t" ]]; then
   log "Skipping Test $cvm_test_name"
   echo
   continue
