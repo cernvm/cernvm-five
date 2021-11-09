@@ -1,10 +1,12 @@
 #!/bin/bash
 ### This file is part of CernVM 5.
-# Used in a build container
+# Script is used in a Buildah container to build a tagged image
+# Image: https://github.com/containers/buildah
+
 set -e
 NAME="cvmvm"
 DOCKERFILE="Dockerfile"
-TAG="baselayer"
+VERSION="4.9.9"
 REPO_URL="https://github.com/cernvm/cernvm-five"
 OUTPUT_FORMAT="docker"
 BUILD_DIR="/build"
