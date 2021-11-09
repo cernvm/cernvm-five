@@ -31,9 +31,9 @@ WORKDIR $HOME
 COPY /system/base/minimization/minimization.sh $BUILD_SCRIPTS
 RUN bash $BUILD_SCRIPTS/minimization.sh
 ### Adding config files and runtime scripts ###
-COPY /config/cvmfs/default.local $BUILD_DIR/etc/cvmfs/
-COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.conf $BUILD_DIR/etc/cvmfs/config.d/
-COPY /config/cernvm-five.cern.ch/cernvm-five.cern.ch.pub $BUILD_DIR/etc/cvmfs/keys/
+COPY /config/etc/cvmfs/default.local $BUILD_DIR/etc/cvmfs/
+COPY /config/etc/cvmfs/config.d/cernvm-five.cern.ch.conf $BUILD_DIR/etc/cvmfs/config.d/
+COPY /config/etc/cvmfs/keys/cernvm-five.cern.ch.pub $BUILD_DIR/etc/cvmfs/keys/
 COPY /system/common/mount.sh $BUILD_DIR/
 
 ### Baselayer-Stage ###
