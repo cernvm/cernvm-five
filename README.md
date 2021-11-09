@@ -1,9 +1,9 @@
 # CernVM 5
 
-1. [About CernVM 5](##1.-about-cernvm-5)
-2. [Building the image](##2.building-the-image)
-    1. [With Docker](###with-docker)
-    2. [With Podman](###with-podman)
+1. [About CernVM 5](##1.-About-Cernvm-5)
+2. [Building the image](##2.Building-the-Image)
+    1. [With Docker](###With-Docker)
+    2. [With Podman](###With-Podman)
 
 
 ## 1. About CernVM 5
