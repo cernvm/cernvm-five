@@ -5,16 +5,11 @@
 2. [Building the image](##building-the-image)
     1. [With Docker](###with-docker)
     2. [With Buildah](#bud)
+    3. [Deriving from the image](###deriving-from-the-image)
 3. [Running the image as a Container](##running-the-image-as-a-container)
     1. [Using Docker](###using-docker)
     2. [Using Podman](###using-podman)
-
-<br>
-
 ---
-
-<br>
-
 ## About CernVM 5
 This repository contains the source code and build scripts for the EL8-based CernVM 5 container image. 
 The image is intended to be a JeOS (Just enough OS) and provides:
@@ -33,43 +28,50 @@ For most Use Cases it is sensible to run the image with CernVM-FS either mounted
 > **_NOTE:_**  User Applications don't use LD_LIBRARY_PATH and therefore can be run in parallel to other applications from other repositories safely.
 
 <br>
- 
+
+### Host integration
+Besides /cvmfs the image comes with two more dedicated host mount points:
+
+  - **/workspace** as a shared folder between container and host
+  - **/data** for data integration with for e.g. EOS
+
 ---
-
-<br>
-
 ## Building the image
 
-
 ### With Docker 
-    docker build -f docker/Dockerfile . -t cernvm:5 
+    docker build -f docker/Dockerfile . -t cernvm
 
 ### With [Buildah](https://buildah.io/) in for e.g. [in a build container](https://github.com/containers/buildah) 
 
-    buildah bud -t cernvm:5 -f docker/Dockerfile .  
+    buildah bud -t cernvm -f docker/Dockerfile .  
 
-<br>
+### Deriving from the image
+
+CernVM 5 can serve as a baselayer for custom container images. Use
+    
+    FROM cernvm:latest
+    RUN dnf install mypackage
+    COPY /myfile / 
+
+to extend the image as you wish.
 
 ---
-
-<br>
-
 ## Running the image as a container 
-It is recommended to run the image with either CernVM-FS mounted from the host  
+Make sure to use the [dedicated mountpoints](###host-integration) for host integration. It is recommended to run the image with either CernVM-FS mounted from the host or with an independent CernVM-FS client inside the container
 ### Using Docker
 
+    Host CernVM-FS
     docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cvm:5 bash
 
-or with an independent CernVM-FS client inside the container
-
-    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:5 bash
 <br>
 
-### Using Podman  
+    Container CernVM-FS
+    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:5 bash
 
+### Using Podman  
     podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cvm:5 bash
 
-or with an independent CernVM-FS client inside the container
+<br>
 
     podman run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:5 bash
 
