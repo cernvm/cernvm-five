@@ -2,6 +2,7 @@
 
 1. [About CernVM 5](##about-cernvm)
     1. [CernVM-FS](###CernVM-FS)
+    2. [Host integration](###host-integration)
 2. [Building the image](##building-the-image)
     1. [With Docker](###with-docker)
     2. [With Buildah](#bud)
@@ -14,7 +15,7 @@
 This repository contains the source code and build scripts for the EL8-based CernVM 5 container image. 
 The image is intended to be a JeOS (Just enough OS) and provides:
 
- - A [CernVM-File System](https://github.com/cvmfs/cvmfs) client with its minimal dependencies
+ - A [CernVM-File System](https://cernvm.cern.ch/fs/) client with its minimal dependencies
  - HEP_OSlibs
 
 ### CernVM-FS
@@ -77,15 +78,3 @@ Make sure to use the [dedicated mountpoints](###host-integration) for host integ
 
 
 ---
-
-
-
-
-
-
-
-
-
-
-
- 
