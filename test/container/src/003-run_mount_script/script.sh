@@ -1,4 +1,4 @@
 #!/bin/bash
-bash /mount.sh
+bash /etc/cernvm/mount.sh
 res=$?
 exit $res
