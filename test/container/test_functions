@@ -1,0 +1,60 @@
+#!/bin/bash
+### Functions used in run.sh ###
+
+### Common ###
+
+usage() {
+  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip>"
+}
+
+# logger
+log() {
+echo '['$(date +"%D %T %z")']' $1 | tee -a $logfile
+}
+
+### Docker ###
+
+# Checks dockerinstallation
+check_docker() {
+docker --version  
+if [ $? -ne 0 ]; then
+  log "docker not installed... Abort"
+  exit 1
+else 
+  log "Running $(docker --version)"
+fi
+}
+
+
+# Checks for dockerimage to be tested
+check_docker_image() {
+str=$(docker image ls $image)
+if [[ "$str" == *"$image"* ]]; then 
+ log "Image $image available"
+else 
+ log "Image $image not available... Abort"
+ exit 1
+fi
+}
+
+# Runs docker container with /test mounted and CernVM FS mounted inside
+run_docker_inside() {
+  docker run --rm -it                      \
+  --device /dev/fuse                       \
+  --cap-add SYS_ADMIN                      \
+  -v $host_test_dir:$container_test_dir:Z  \
+  -v $workspace_host:/workspace:Z          \
+  $image bash $container_test_dir/src/$1
+  
+}
+
+# Runs docker container with /test mounted and CernVM FS from host
+ run_docker_host() {
+  docker run --rm -it                     \
+  --device /dev/fuse                      \
+  --cap-add SYS_ADMIN                     \
+  -v /cvmfs:/cvmfs:ro                     \
+  -v $thisdir:/test:Z                     \
+  -v $workspace_host:/workspace:Z         \
+  $image bash $container_test_dir/src/$1
+}
