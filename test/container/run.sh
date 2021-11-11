@@ -17,7 +17,7 @@ if [ -z $image ]; then
 fi
 
 cvmfs_mount=$3
-if [ $cvmfs_mount != "-i" ] && [ $cvmfs_mount != "-h" ]; then
+if [ $cvmfs_mount != "-i" ] && [ $cvmfs_mount != "-h" ] && [ $cvmfs_mount != "-a" ]; then
   usage
   exit 1
 fi
@@ -111,3 +111,13 @@ log "Summary:"
 log "${#passed[@]} of ${num_tests} tests passed"
 log "${#failed[@]} of ${num_tests} tests failed"
 log "${#skip[@]} of ${num_tests} tests skipped"
+
+if [ ${#failed[@]} -gt 0 ]; then
+  exit 1
+fi
+
+if [ ${#skip[@]} == ${num_tests} ]; then
+  exit 2
+fi
+
+exit 0
