@@ -1,6 +1,6 @@
 ### This file is part of CernVM 5.
 ### This is a multi-stage Dockerfile used for building CernVM 5. 
-### The final image contains a cvmfs client and the HEP_OSlibs. It can be used to derive from it. 
+### The final image contains a CernVM-FS client and the HEP_OSlibs. It can be used to derive from it. 
 
 ### Build Stage, preparing a EL8-based builder container ###
 FROM centos:centos8 AS builder
@@ -17,7 +17,7 @@ RUN dnf install -y sudo \
 ### Installing into /build via rootinstall ###
 RUN mkdir build
 
-### Install cvmfs, HEP_OSlibs and dnf into /build ###
+### Install CernVM-FS, HEP_OSlibs and dnf into /build ###
 COPY /system/install/install_cvmfs.sh /
 RUN bash install_cvmfs.sh
 
@@ -29,7 +29,7 @@ RUN bash minimization.sh
 COPY /config/etc/cvmfs/default.local $BUILD_DIR/etc/cvmfs/
 COPY /config/etc/cvmfs/config.d/cernvm-five.cern.ch.conf $BUILD_DIR/etc/cvmfs/config.d/
 COPY /config/etc/cvmfs/keys/cernvm-five.cern.ch.pub $BUILD_DIR/etc/cvmfs/keys/
-COPY /system/common/mount.sh $BUILD_DIR/
+COPY /config/etc/cernvm/ $BUILD_DIR/etc/cernvm/
 
 ### Final Stage ###
 ### Copying /build to scratch ###

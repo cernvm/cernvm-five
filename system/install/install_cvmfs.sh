@@ -14,7 +14,7 @@ dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install
 # dnf packagemanager
 dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False dnf
 
-# cvmfs
+# CernVM-FS
 sudo dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False  -y https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  
 sudo dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False cvmfs 
 
