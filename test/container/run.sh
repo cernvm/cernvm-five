@@ -61,9 +61,11 @@ do
   . ./src/$t/main
 
   # Check CernVM mount specification
-  if [[ ! "${tags[*]}" =~ "$cvmfs_mount" ]]; then
-    skip+=("$t")
-    log "Adding $t to tests to be skipped..." 
+  if [ "$cvmfs_mount" != "-a" ]; then 
+    if [[ ! "${tags[*]}" =~ "$cvmfs_mount" ]]; then
+      skip+=("$t")
+      log "Adding $t to tests to be skipped..." 
+    fi
   fi
 
   if [[ "${skip[*]}" =~ "$t" ]]; then
