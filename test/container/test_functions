@@ -39,7 +39,7 @@ fi
 
 # Runs docker container with /test mounted and CernVM FS mounted inside
 run_docker_inside() {
-  docker run --rm -it                      \
+  docker run --rm                          \
   --device /dev/fuse                       \
   --cap-add SYS_ADMIN                      \
   -v $host_test_dir:$container_test_dir:Z  \
@@ -50,7 +50,7 @@ run_docker_inside() {
 
 # Runs docker container with /test mounted and CernVM FS from host
  run_docker_host() {
-  docker run --rm -it                     \
+  docker run --rm                         \
   --device /dev/fuse                      \
   --cap-add SYS_ADMIN                     \
   -v /cvmfs:/cvmfs:ro                     \
