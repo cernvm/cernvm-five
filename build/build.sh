@@ -1,7 +1,9 @@
+  GNU nano 2.9.8                                                                                                                            build.sh                                                                                                                            Modified  
+
 #!/bin/bash
 ### This file is part of CernVM 5.
 # Script is used in a Buildah container to build a tagged image
-# container image(build locally): https://github.com/containers/buildah
+# Image: https://github.com/containers/buildah
 set -e
 usage() {
   echo "$0 <image nametag> <image versiontag> <output format e.g. docker> "
@@ -36,6 +38,7 @@ DEST_DIR="./image_dest"
 
 git clone $REPO_URL
 cd cernvm-five
+# todo: Buildah via https
 buildah bud --format "$OUTPUT_FORMAT" -t "$NAME:$VERSION" -f "docker/Dockerfile" . 
 buildah push --format "$OUTPUT_FORMAT" "$NAME:$VERSION" docker-archive:"$BUILD_DIR_CONTAINER/$NAME.tar"
 buildah images
@@ -44,3 +47,26 @@ gzip -k -v "$NAME.tar"
 
 # move image to host mountpoint $DEST_DIR as .tar.gz
 mv $NAME.tar.gz $DEST_DIR/${NAME}-${VERSION}.tar.gz
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+^G Get Help	 ^O Write Out     ^W Where Is	   ^K Cut Text      ^J Justify       ^C Cur Pos       M-U Undo         M-A Mark Text    M-] To Bracket   M-▲ Previous     ^B Back          ^◀ Prev Word     ^A Home          ^P Prev Line     M-- Scroll Up    ^▲ Prev Block
+^X Exit          ^R Read File     ^\ Replace	   ^U Uncut Text    ^T To Linter     ^_ Go To Line    M-E Redo         M-6 Copy Text    M-W WhereIs Next M-▼ Next         ^F Forward	   ^▶ Next Word     ^E End           ^N Next Line     M-+ Scroll Down  ^▼ Next Block
