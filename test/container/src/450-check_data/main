@@ -1,0 +1,13 @@
+#!/bin/bash
+# checks if /data readable and writeable for container
+cvm_test_name="check_data "
+tags=("-i" "-h")
+cvm_run_test() {
+  cp **/$t/pre/* $data_host
+  run_docker_inside $t/script.sh
+  res=$?
+  rm -f $data_host/*
+  log "Test $cvm_test_name returned $res"
+  return $res
+}
+

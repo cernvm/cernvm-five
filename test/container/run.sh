@@ -48,6 +48,7 @@ log "Workingdirectory:"$thisdir
 host_test_dir=$thisdir
 container_test_dir=/test
 workspace_host=$thisdir/workspace_host
+data_host=$thisdir/data_host
 
 # Mapping testsuite and skipped tests
 mapfile -t testsuite < $testsuite
