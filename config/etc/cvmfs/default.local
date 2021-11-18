@@ -1,7 +1,0 @@
-# todo: move to 90-cernvm.conf
-CVMFS_REPOSITORIES="cvmfs-config.cern.ch, sw-nightlies.hsf.org, cernvm-five.cern.ch"
-CVMFS_HTTP_PROXY="DIRECT"
-CVMFS_TIMEOUT=20
-CVMFS_TIMEOUT_DIRECT=20
-CVMFS_SYSLOG_FACILITY=5
-
