@@ -5,8 +5,9 @@
 if [ "$(cvmfs_config status)" != "" ]; then
   exit 0
 
+# draft
 else
-  . /etc/cvmfs/default.local 
+  . /etc/cvmfs/default.d/90-cernvm.conf 
   repos=(${CVMFS_REPOSITORIES//,/ })
   res=0
   for r in "${repos[@]}"
