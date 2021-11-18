@@ -21,15 +21,14 @@ RUN mkdir build
 COPY /system/install/install_cvmfs.sh /
 RUN bash install_cvmfs.sh
 
+### Adding config files and scripts for cernvm-five.cern.ch ###
+COPY rpm/cernvm-config-default-1.0.0-1.x86_64.rpm /tmp
+RUN rpm -i --root /build /tmp/cernvm-config-default-1.0.0-1.x86_64.rpm && \
+    rm /tmp/*
+
 ### Removing some unnecessary packages and caches ###
 COPY /system/minimization/minimization.sh /
 RUN bash minimization.sh
-
-### Adding config files and runtime scripts ###
-COPY /config/etc/cvmfs/default.local $BUILD_DIR/etc/cvmfs/
-COPY /config/etc/cvmfs/config.d/cernvm-five.cern.ch.conf $BUILD_DIR/etc/cvmfs/config.d/
-COPY /config/etc/cvmfs/keys/cernvm-five.cern.ch.pub $BUILD_DIR/etc/cvmfs/keys/
-COPY /config/etc/cernvm/ $BUILD_DIR/etc/cernvm/
 
 ### Final Stage ###
 ### Copying /build to scratch ###
@@ -38,5 +37,7 @@ COPY --from=builder /build /
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing cvmfs and HEP_OSlibs"
+### for devel
+RUN dnf install -y nano vi vim 
 WORKDIR /
 STOPSIGNAL SIGINT
