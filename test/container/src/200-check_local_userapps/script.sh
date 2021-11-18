@@ -1,4 +1,5 @@
 #!/bin/bash
+# todo: fix test
 fail="false"
 apps=("nano", "ping")
 for a in "${apps[@]}"
