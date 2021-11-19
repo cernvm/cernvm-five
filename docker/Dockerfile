@@ -39,6 +39,6 @@ LABEL io.k8s.display-name="CernVM"
 LABEL io.k8s.description="A container image providing cvmfs and HEP_OSlibs"
 ### for devel
 RUN dnf install -y nano vi vim 
-RUN . ./etc/cernvm/functions
+# todo: source functions
 WORKDIR /
 STOPSIGNAL SIGINT
