@@ -33,6 +33,9 @@ BUILD_DIR_CONTAINER="/build"
 # Image is copied to host mountpoint DEST_DIR
 DEST_DIR="./image_dest"
 
+# todo: add rpm package build
+# toso: cleanup dest_dir
+
 git clone $REPO_URL
 cd cernvm-five
 # todo: Buildah via https
