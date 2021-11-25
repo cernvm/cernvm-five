@@ -38,7 +38,7 @@ LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jbl
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing cvmfs and HEP_OSlibs"
 ### for devel
-RUN dnf install -y nano vi vim 
+# RUN dnf install -y nano vi vim 
 # todo: source functions
 WORKDIR /
 STOPSIGNAL SIGINT
