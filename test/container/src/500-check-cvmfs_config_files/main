@@ -1,0 +1,11 @@
+#!/bin/bash
+# checks config files for cernvm-five.cern.ch
+cvm_test_name="check_cvmfs_config_files"
+tags=("-i" "-h")
+cvm_run_test() {
+  run_docker_inside $t/script.sh
+  res=$?
+  log "Test $cvm_test_name returned $res"
+  return $res
+}
+

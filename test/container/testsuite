@@ -12,3 +12,4 @@
 395-run_setup_platform_without_cvmfs
 400-check_workspace
 450-check_data
+500-check-cvmfs_config_files
