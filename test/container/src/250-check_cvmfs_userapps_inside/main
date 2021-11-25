@@ -1,6 +1,6 @@
 #!/bin/bash
-# runs /mount.sh without CernVM FS mounted from host
-cvm_test_name="run_mount_script_without_host"
+# checks applications on CernVM FS
+cvm_test_name="check_cvmfs_userapps_inside"
 tags=("-i")
 cvm_run_test() {
   run_docker_inside $t/script.sh
@@ -8,4 +8,5 @@ cvm_run_test() {
   log "Test $cvm_test_name returned $res"
   return $res
 }
+
 

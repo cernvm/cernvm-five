@@ -1,0 +1,11 @@
+#!/bin/bash
+# runs cernvm_config mount_cvmfs -p without CernVM FS mounted from host
+cvm_test_name="run_mount_cvmfs-p_inside"
+tags=("-i")
+cvm_run_test() {
+  run_docker_inside $t/script.sh
+  res=$?
+  log "Test $cvm_test_name returned $res"
+  return $res
+}
+

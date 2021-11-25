@@ -1,10 +1,13 @@
 #!/bin/bash
+. ./etc/cernvm/functions
+cernvm_config setup_platform
+
 fail=
-apps=("nano" "ping" "vim" "http_ping" "yum" "grubby")
+apps=("nano" "vim" "http_ping")
 for a in "${apps[@]}"
 do
   which $a
-  if [ $? -eq 0 ]; then
+  if [ $? -ne 0 ]; then
     fail="true"
   fi
 done

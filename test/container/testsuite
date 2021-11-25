@@ -1,6 +1,14 @@
 100-check_LD_LIBRARY_PATH
+110-check_LD_LIBRARY_PATH_after_setup_platform
 200-check_local_userapps
-300-run_mount_script_without_host
-350-run_mount_script_with_host
+250-check_cvmfs_userapps_inside
+260-check_cvmfs_userapps_with_host
+300-run_mount_cvmfs-a_inside
+350-run_mount_cvmfs-a_with_host
+360-run_mount_cvmfs-p_inside
+370-run_mount_cvmfs-p_with_host
+380-run_setup_platform_inside
+390-run_setup_platform_with_host
+395-run_setup_platform_without_cvmfs
 400-check_workspace
 450-check_data

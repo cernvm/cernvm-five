@@ -1,0 +1,14 @@
+#!/bin/bash
+# runs mount_cvmfs -a with host CernVM FS, must return !=0
+cvm_test_name="run_mount_cvmfs-a_with_host"
+tags=("-h")
+cvm_run_test() {
+  run_docker_host $t/script.sh
+  res=$?
+  log "Test $cvm_test_name returned $res (must fail)"
+  if [ $res -eq 0 ]; then
+    return 1
+  fi
+  return 0
+}
+
