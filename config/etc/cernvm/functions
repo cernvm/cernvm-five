@@ -30,8 +30,15 @@ fi
 
 # Sets up path for cernvm-five.cern.ch
 setup_platform() {
+  # tmp quickfix
+  OLD_PATH=$PATH
   CVMFS="/cvmfs/cernvm-five.cern.ch/apps"
   export PATH=$PATH$( find $CVMFS/**/**/**/**/bin/ -type d -printf ":%p" )
+  
+  if [ $OLD_PATH == $PATH ]; then
+  return 1
+    echo "Could not setup userapps. Is cernvm-five.cern.ch mounted?" 
+  fi
   return $?
 }
 
