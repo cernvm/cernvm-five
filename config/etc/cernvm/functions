@@ -1,8 +1,10 @@
-cernvm_mount() {
-if [ "$(cvmfs_config status)" != "" ]; then
-  return 0
-# draft
-else
+
+# Helper functions for CernVM 5
+mount_cvmfs() {
+ARG1=$1
+
+# Mounts all cvmfs repos in 90-cernvm.conf
+if [ $ARG1 == "-a" ]; then
   . /etc/cvmfs/default.d/90-cernvm.conf 
   repos=(${CVMFS_REPOSITORIES//,/ })
   res=0
@@ -14,7 +16,59 @@ else
       res=1
     fi
   done
+  return $res
 fi
 
-return $res
+# Mounts cernvm-five.cern.ch
+if [ $ARG1 == "-p" ]; then 
+  mkdir -p /cvmfs/cernvm-five.cern.ch
+  mount -t cvmfs cernvm-five.cern.ch /cvmfs/cernvm-five.cern.ch
+  return $?
+fi
+
+}
+
+# Sets up path for cernvm-five.cern.ch
+setup_platform() {
+  CVMFS="/cvmfs/cernvm-five.cern.ch/apps"
+  export PATH=$PATH$( find $CVMFS/**/**/**/**/bin/ -type d -printf ":%p" )
+  return $?
+}
+
+# For help
+usage() {
+  echo "Usage: cernvm_config <command> <option>"
+  echo
+  echo "Command                   Description
+  mount_cvmfs             Used for mounting CernVM FS repositories
+          Options: -a     Mounts every CernVM FS specified in 90-cernvm.conf
+                   -p     Mounts cernvm-five.cern.ch for user applications
+
+  setup_platform          Sets up PATH for user applications"
+}
+
+# Calls the other fuctions
+cernvm_config() {
+ARG1=$1
+ARG2=$2
+
+if  [[ -n  $1 ]]; then
+  echo "cernvm_config -h for help"
+  return 1
+fi
+
+if [ $ARG1 == "-h" ]; then
+  usage
+
+elif [ $ARG1 == "mount_cvmfs" ]; then
+  mount_cvmfs $ARG2
+
+
+elif [ $ARG1 == "setup_platform" ]; then
+  setup_platform 
+
+else 
+  echo "cernvm_config -h for help"
+  return 1
+fi
 }
