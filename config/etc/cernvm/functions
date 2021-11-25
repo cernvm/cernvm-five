@@ -52,10 +52,11 @@ cernvm_config() {
 ARG1=$1
 ARG2=$2
 
-if  [[ -n  $1 ]]; then
-  echo "cernvm_config -h for help"
-  return 1
-fi
+# draft
+# if  [[ -n  $1 ]]; then
+#   echo "cernvm_config -h for help"
+#   return 1
+# fi
 
 if [ $ARG1 == "-h" ]; then
   usage
