@@ -1,0 +1,2 @@
+# Array of userapplacations installed on cernvm-five.cern.ch
+apps=("nano" "ping" "vim" "http_ping" "yum" "grubby")
