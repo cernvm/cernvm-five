@@ -1,0 +1,3 @@
+# Userapps installed on CernVM FS (cernvm-five.cern.ch)
+
+apps=("nano" "vim" "http_ping")
