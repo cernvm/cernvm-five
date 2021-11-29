@@ -1,10 +1,10 @@
 #!/bin/bash
 . ./etc/cernvm/functions
+. ./etc/cernvm/userapps
 cernvm_config mount_cvmfs -p
 cernvm_config setup_platform
 
 fail=
-apps=("nano" "vim" "http_ping")
 for a in "${apps[@]}"
 do
   which $a
