@@ -1,4 +1,4 @@
-# Userapps installed on CernVM FS (cernvm-five.cern.ch)
+# Userapps installed on CernVM FS (cernvm-five.cern.ch) and in the image
 
-apps=("nano" "vim" "http_ping" "wget" "strace" "tree" "diff" "cmp")
+apps=("nano" "vim" "http_ping" "wget" "strace" "tree" "diff" "cmp" "dnf")
 
