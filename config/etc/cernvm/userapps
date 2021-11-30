@@ -1,7 +1,4 @@
 # Userapps installed on CernVM FS (cernvm-five.cern.ch)
 
-<<<<<<< HEAD
-apps=("nano" "vim" "http_ping" "wget")
-=======
-apps=("nano" "vim" "http_ping" "wget" "strace" "tree" "diff" "cmp" )
->>>>>>> 58385b1c28025514aa5270a3bb4e6dec5d4acd95
+apps=("nano" "vim" "http_ping" "wget" "strace" "tree" "diff" "cmp")
+
