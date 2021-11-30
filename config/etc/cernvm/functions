@@ -1,5 +1,6 @@
 
 # Helper functions for CernVM 5
+
 mount_cvmfs() {
 ARG1=$1
 
@@ -80,3 +81,15 @@ else
   return 1
 fi
 }
+
+# Wrapping dnf 
+alias dnf='wrapped_dnf'
+wrapped_dnf() {
+    LLP=${LD_LIBRARY_PATH}
+    export LD_LIBRARY_PATH=""
+    /usr/bin/dnf "$@"
+    res=$?
+    export LD_LIBRARY_PATH=${LLP}
+    return $res
+}
+
