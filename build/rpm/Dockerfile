@@ -8,5 +8,5 @@ RUN dnf install -y rpmdevtools rpmlint
 RUN rpmdev-setuptree
 
 ### Copy build script###     
-COPY build/container/build_cernvm_config_rpm.sh /build
+COPY ./build_cernvm_config_rpm.sh /build
 WORKDIR /build
