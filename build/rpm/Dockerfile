@@ -4,7 +4,7 @@ FROM centos:8
 RUN mkdir -p /build/image_dest  
 
 ### Install rpm software and set up tree ###
-RUN dnf install -y rpmdevtools rpmlint
+RUN dnf install -y rpmdevtools rpmlint git
 RUN rpmdev-setuptree
 
 ### Copy build script###     
