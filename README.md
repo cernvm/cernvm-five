@@ -62,19 +62,19 @@ Make sure to use the [dedicated mountpoints](###host-integration) for host integ
 ### Using Docker
 
     Host CernVM-FS
-    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cvm:5 bash
+    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm:latest bash
 
 <br>
 
     Container CernVM-FS
-    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:5 bash
+    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:latest bash
 
 ### Using Podman  
-    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cvm:5 bash
+    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm:latest bash
 
 <br>
 
-    podman run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:5 bash
+    podman run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:latest bash
 
 
 ---
