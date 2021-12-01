@@ -25,6 +25,7 @@ RUN bash install_cvmfs.sh
 COPY rpm/cernvm-config-default-1.0.0-1.x86_64.rpm /tmp
 RUN rpm -i --root /build /tmp/cernvm-config-default-1.0.0-1.x86_64.rpm && \
     rm /tmp/*
+RUN echo ". /etc/cernvm/functions" >> $BUILD_DIR/$HOME/.bashrc
 
 ### Removing some unnecessary packages and caches ###
 COPY /system/minimization/minimization.sh /
