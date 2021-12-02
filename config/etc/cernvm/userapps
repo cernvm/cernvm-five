@@ -1,4 +1,5 @@
-# Userapps installed on CernVM FS (cernvm-five.cern.ch) and in the image
+### This file is part of CernVM 5. ### 
+### Userapps installed on CernVM FS (cernvm-five.cern.ch) and in the image ###
 
 apps=("nano" "vim" "http_ping" "wget" "strace" "tree" "diff" "cmp" "dnf")
 

@@ -1,5 +1,6 @@
 
-# Helper functions for CernVM 5
+### This file is part of CernVM 5. ###
+#### Helper functions for CernVM 5 ###
 
 mount_cvmfs() {
 ARG1=$1
@@ -28,7 +29,7 @@ if [ $ARG1 == "-p" ]; then
 fi
 
 }
-
+# This file is part of CernVM 5.
 # Sets up path for cernvm-five.cern.ch
 setup_platform() {
   # tmp quickfix

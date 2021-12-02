@@ -1,3 +1,4 @@
+### This file is part of CernVM 5. ###
 ### Dockerfile for rpm build container ###
 
 FROM centos:8

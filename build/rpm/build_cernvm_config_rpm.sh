@@ -1,5 +1,5 @@
 #!/bin/bash
-### This file is part of CernVM 5.
+### This file is part of CernVM 5. ###
 # Script is used to build a CernVM 5 config rpm ###
 set -e
 usage() {

@@ -1,3 +1,4 @@
+### This file is part of CernVM 5. ###
 ### Dockerfile for the builder container ###
 
 ### First build Buildah container locally (no pull) https://github.com/containers/buildah 

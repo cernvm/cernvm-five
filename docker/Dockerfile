@@ -3,7 +3,7 @@
 ### The final image contains a CernVM-FS client and the HEP_OSlibs. It can be used to derive from it. 
 
 ### Build Stage, preparing a EL8-based builder container ###
-FROM centos:centos8 AS builder
+FROM centos:8 AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
 
@@ -35,11 +35,8 @@ RUN bash minimization.sh
 ### Copying /build to scratch ###
 FROM scratch as cernvm
 COPY --from=builder /build /
-LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" 
+LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing cvmfs and HEP_OSlibs"
-### for devel
-# RUN dnf install -y nano vi vim 
-# todo: source functions
 WORKDIR /
 STOPSIGNAL SIGINT

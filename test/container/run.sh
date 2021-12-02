@@ -1,5 +1,6 @@
 #!/bin/bash
-# Checks host and runs test 
+### This file is part of CernVM 5.###
+### Checks host and runs test ###
 
 # Source helper functions
 . ./test_functions 
