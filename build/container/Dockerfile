@@ -11,3 +11,4 @@ RUN rpmdev-setuptree
 ### Copy build script###     
 COPY build/container/build_image.sh /build
 WORKDIR /build
+LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch"
