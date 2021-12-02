@@ -24,7 +24,7 @@ For most Use Cases it is sensible to run the image with CernVM-FS either mounted
  - The repository cernvm-five.cern.ch provides common **User Applications** like editors, browsers or cloud tools. It features a Gentoo Prefix to isolate the installed applications from either local or other libraries installed on CernVM-FS
  - Other repositories with **Scientific Applications** can be mounted as usual.
   
- <img src="./rdme/graphics/architecture.png" title="CernVM Layout" style="max-width: 70%;"  />
+ <img src="./rdme/graphics/architecture.png" title="CernVM Layout" style="max-width: 100%;"  />
 
 > **_NOTE:_**  User Applications don't use LD_LIBRARY_PATH and therefore can be run in parallel to other applications from other repositories safely.
 
