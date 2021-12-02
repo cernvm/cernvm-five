@@ -1,5 +1,5 @@
 #!/bin/bash 
-# This file is part of CernVM 5.
+# This file is part of CernVM 5. ###
 set -e
 # todo: building a spack package
 # Used for docker
@@ -18,6 +18,18 @@ dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install
 sudo dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False  -y https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  
 sudo dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False cvmfs 
 
-# create mountpoints for user
+# CernVM config and helper functions
+# todo: rolling tag
+wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/cernvm-config-default-1.3.x86_64.rpm 
+rpm -i --root $BUILD_DIR /cernvm-config-default-1.3.x86_64.rpm
+
+# Creating .bashrc
+# Sourceing cernvm_config
+echo ". /etc/cernvm/functions" >> $BUILD_DIR/$HOME/.bashrc
+
+# Setting title to CernVM 5
+# echo -e "\e]0;"; echo -n CernVM 5; echo -ne "\007" >> $BUILD_DIR/$HOME/.bashrc
+
+# create mountpoints
 mkdir $BUILD_DIR/workspace
 mkdir $BUILD_DIR/data
