@@ -6,6 +6,7 @@
 2. [Building the image](##building-the-image)
     1. [With Docker](###with-docker)
     2. [With Buildah](#bud)
+    3. [Pulling from Docker Registry](###pulling-from-docker-registry)
     3. [Deriving from the image](###deriving-from-the-image)
 3. [Running the image as a Container](##running-the-image-as-a-container)
     1. [Using Docker](###using-docker)
@@ -46,6 +47,9 @@ Besides /cvmfs the image comes with two more dedicated host mount points:
 
     buildah bud -t cernvm -f docker/Dockerfile .  
 
+## Pulling from Docker Registry 
+
+    docker pull jaeberha/cernvm
 ### Deriving from the image
 
 CernVM 5 can serve as a baselayer for custom container images. Use
@@ -79,3 +83,6 @@ Make sure to use the [dedicated mountpoints](###host-integration) for host integ
 
 ---
 
+## User Application area on CernVM-FS
+
+CernVM 5 comes as a JustEnoughOS, therefore, common user applications are installed on CernVM-FS
