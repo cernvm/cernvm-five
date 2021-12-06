@@ -29,6 +29,7 @@ RUN bash minimization.sh
 ### Copying /build to scratch ###
 FROM scratch as cernvm
 COPY --from=builder /build /
+ENV PATH=$PATH:/cvmfs/cernvm-five.cern.ch/apps/findutils/4.8.0/x86_64-centos8-gcc8.5.0-opt/kescii5sjefmo7edbqs5yi62lht25iqq/bin
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing cvmfs and HEP_OSlibs"
