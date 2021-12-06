@@ -1,7 +1,8 @@
 #!/bin/bash 
 # This file is part of CernVM 5. ###
 set -e
-# todo: building a spack package
+# todo: building a single rpm
+# glibc-langpack-en \
 # Used for docker
 dnf install --installroot=$BUILD_DIR --releasever=/  --nodocs --setopt=install_weak_deps=False -y libXpm \
      xauth \
