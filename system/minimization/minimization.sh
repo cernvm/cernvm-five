@@ -7,6 +7,14 @@ sudo rpm --root=$BUILD_DIR -e  cracklib-dicts \
     cracklib \
     adwaita-icon-theme \
     adwaita-cursor-theme \
+    findutils \
+    cmake \
+    rsync \
+    diffutils \
+    tar \
+    binutils \
+    hwdata \
+    shadow-utils \
     gsettings-desktop-schemas --nodeps  
 
 # Removing cache
