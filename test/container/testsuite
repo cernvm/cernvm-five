@@ -16,3 +16,4 @@
 600-fcc-setup_platform_setup_fcc_check_userapps
 610-fcc-setup_fcc_setup_platform_check_userapps
 620-fcc-setup_fcc_setup_check_dnf_wrapper
+630-fcc-whizard
