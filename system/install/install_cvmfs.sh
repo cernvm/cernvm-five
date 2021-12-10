@@ -21,7 +21,7 @@ sudo dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=in
 
 # CernVM config and helper functions
 # todo: rolling tag
-wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/cernvm-config-default-1.3.x86_64.rpm 
+wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/cernvm-config-default-1.4.x86_64.rpm 
 rpm -i --root $BUILD_DIR /cernvm-config-default-1.3.x86_64.rpm
 
 # Creating .bashrc
