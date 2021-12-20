@@ -1,5 +1,0 @@
-250-check_cvmfs_userapps_inside
-300-run_mount_cvmfs-a_inside
-360-run_mount_cvmfs-p_inside
-380-run_setup_platform_inside
-630-fcc-whizard
