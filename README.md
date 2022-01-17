@@ -43,7 +43,7 @@ Besides /cvmfs the image comes with two more dedicated host mount points:
 ### With Docker 
     docker build -f docker/Dockerfile . -t cernvm
 
-### With [Buildah](https://buildah.io/) in for e.g. [in a build container](https://github.com/containers/buildah) 
+### With [Buildah](https://buildah.io/) in for e.g., [in a build container](https://github.com/containers/buildah) 
 
     buildah bud -t cernvm -f docker/Dockerfile .  
 
