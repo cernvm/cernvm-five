@@ -2,7 +2,7 @@
 ### Dockerfile for rpm build container ###
 
 FROM centos:8
-RUN mkdir -p /build/image_dest  
+RUN mkdir -p /build/rpm_dest  
 
 ### Install rpm software and set up tree ###
 RUN dnf install -y rpmdevtools rpmlint git
