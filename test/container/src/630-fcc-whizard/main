@@ -9,5 +9,3 @@ cvm_run_test() {
   log "Test $cvm_test_name returned $res"
   return $res
 }
-
-

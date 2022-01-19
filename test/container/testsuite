@@ -9,7 +9,6 @@
 370-run_mount_cvmfs-u_with_host
 380-run_setup_userapps_inside
 390-run_setup_userapps_with_host
-395-run_setup_userapps_without_cvmfs
 400-check_workspace
 450-check_data
 500-check-cvmfs_config_files
