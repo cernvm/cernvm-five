@@ -13,7 +13,7 @@ if [ -z $PREFIX ]; then
   exit 1
 fi
 
-# final library location for e.g. / or /cvmfs/cernvm-five.cern.ch/frefix
+# final library location for e.g. / or /cvmfs/cernvm-five.cern.ch/prefix
 LIBS=$2
 if [ ! -z $LIBS ]; then
   LIB=""
