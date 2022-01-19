@@ -1,6 +1,6 @@
 #!/bin/bash
-# runs cernvm_config setup_platform 
-cvm_test_name="run_setup_platform_without_cvmfs"
+# runs cernvm_config setup_userapps 
+cvm_test_name="run_setup_userapps_without_cvmfs"
 tags=("-i")
 cvm_run_test() {
   run_docker_inside $t/script.sh

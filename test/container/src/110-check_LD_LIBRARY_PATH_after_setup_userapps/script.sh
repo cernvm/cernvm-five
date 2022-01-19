@@ -1,7 +1,7 @@
 #!/bin/bash
 . ./etc/cernvm/functions
-cernvm_config mount_cvmfs -p 
-cernvm_config setup_platform
+cernvm_config mount_cvmfs -u 
+cernvm_config setup_userapps
 echo $PATH
 
 if [[  "$LD_LIBRARY_PATH" != "" ]]; then

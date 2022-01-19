@@ -1,6 +1,6 @@
 #!/bin/bash
 # checks if $LD_LIBRARY_PATH is set after setup_platform
-cvm_test_name="check_LD_LIBRARY_PATH_after_setup_platform"
+cvm_test_name="check_LD_LIBRARY_PATH_after_setup_userapps"
 tags=("-i")
 cvm_run_test() {
   run_docker_inside $t/script.sh
