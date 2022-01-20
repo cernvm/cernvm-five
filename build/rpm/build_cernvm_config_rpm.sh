@@ -24,7 +24,7 @@ git clone $REPO_URL
 cd cernvm-five/rpm
 rpmbuild -ba cernvm-config.spec 
 
-DEST_DIR="./rpm_dest"
+DEST_DIR="/build/rpm_dest"
 
 # move rpm to host mountpoint $DEST_DIR 
-mv ~/rpmbuild/RPMS/x86_64/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.x86_64.rpm
+mv /root/rpmbuild/RPMS/x86_64/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.x86_64.rpm

@@ -1,7 +1,7 @@
 #!/bin/bash
 . ./etc/cernvm/functions
 . ./etc/cernvm/userapps
-cernvm_config setup_platform
+cernvm_config setup_userapps
 
 fail=
 for a in "${apps[@]}"

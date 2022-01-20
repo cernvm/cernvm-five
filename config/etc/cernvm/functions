@@ -1,4 +1,3 @@
-
 ### This file is part of CernVM 5. ###
 #### Helper functions for CernVM 5 ###
 
@@ -22,25 +21,18 @@ if [ $ARG1 == "-a" ]; then
 fi
 
 # Mounts cernvm-five.cern.ch
-if [ $ARG1 == "-p" ]; then 
+if [ $ARG1 == "-u" ]; then 
   mkdir -p /cvmfs/cernvm-five.cern.ch
   mount -t cvmfs cernvm-five.cern.ch /cvmfs/cernvm-five.cern.ch
   return $?
 fi
 
 }
-# This file is part of CernVM 5.
-# Sets up path for cernvm-five.cern.ch
-setup_platform() {
-  # tmp quickfix
-  OLD_PATH=$PATH
-  CVMFS="/cvmfs/cernvm-five.cern.ch/apps"
-  export PATH=$PATH$( find $CVMFS/**/**/**/**/bin/ -type d -printf ":%p" )
-  
-  if [ $OLD_PATH == $PATH ]; then
-  return 1
-    echo "Could not setup userapps. Is cernvm-five.cern.ch mounted?" 
-  fi
+
+# Sets up path for cernvm-five.cern.ch/userapps
+setup_userapps() {
+  PRE="/cvmfs/cernvm-five.cern.ch/userapps"
+  export PATH=$PATH:$PRE/usr/local/sbin:$PRE/usr/local/bin:$PRE/usr/sbin:$PRE/usr/bin:$PRE/sbin:$PRE/bin
   return $?
 }
 
@@ -51,21 +43,15 @@ usage() {
   echo "Command                   Description
   mount_cvmfs             Used for mounting CernVM FS repositories
           Options: -a     Mounts every CernVM FS specified in 90-cernvm.conf
-                   -p     Mounts cernvm-five.cern.ch for user applications
+                   -u     Mounts cernvm-five.cern.ch for user applications
 
-  setup_platform          Sets up PATH for user applications"
+  setup_userapps          Sets up PATH for user applications"
 }
 
 # Calls the other fuctions
 cernvm_config() {
 ARG1=$1
 ARG2=$2
-
-# draft
-# if  [[ -n  $1 ]]; then
-#   echo "cernvm_config -h for help"
-#   return 1
-# fi
 
 if [ $ARG1 == "-h" ]; then
   usage
@@ -74,8 +60,8 @@ elif [ $ARG1 == "mount_cvmfs" ]; then
   mount_cvmfs $ARG2
 
 
-elif [ $ARG1 == "setup_platform" ]; then
-  setup_platform 
+elif [ $ARG1 == "setup_userapps" ]; then
+  setup_userapps
 
 else 
   echo "cernvm_config -h for help"

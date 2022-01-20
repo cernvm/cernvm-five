@@ -20,11 +20,11 @@ sudo dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=insta
 sudo dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=install_weak_deps=False cvmfs 
 
 # CernVM config and helper functions
-# todo: rolling tag
-wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/cernvm-config-default-1.5.x86_64.rpm 
-rpm -i --root $BUILD_DIR /cernvm-config-default-1.5.x86_64.rpm
+# todo: Add RPM version to rolling tag
+wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-config-default-latest-x86_64.rpm
+rpm -i --root $BUILD_DIR /cernvm-config-default-latest-x86_64.rpm
 
-# Creating .bashrc
+# Creating .bashrcW
 # Sourceing cernvm_config
 echo ". /etc/cernvm/functions" >> $BUILD_DIR/$HOME/.bashrc
 
