@@ -76,7 +76,7 @@ do
   continue
   fi
 
-  log "Started Test $cvm_test_name"
+  log "Starting Test $cvm_test_name"
   cvm_run_test
 
   if [ $? != "0" ]; then

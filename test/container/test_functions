@@ -59,3 +59,27 @@ run_docker_inside() {
   -v $data_host:/data:Z                   \
   $image bash $container_test_dir/src/$1
 }
+
+# Runs podman container with /test mounted and CernVM FS mounted inside
+run_podman_inside() {
+  podman run --rm                          \
+  --device /dev/fuse                       \
+  --cap-add SYS_ADMIN                      \
+  -v $host_test_dir:$container_test_dir:Z  \
+  -v $workspace_host:/workspace:Z          \
+  -v $data_host:/data:Z          \
+  $image bash $container_test_dir/src/$1
+  
+}
+
+# Runs podman container with /test mounted and CernVM FS from host
+ run_podman_host() {
+  podman run --rm                         \
+  --cap-add SYS_ADMIN                     \
+  -v /cvmfs:/cvmfs:ro                     \
+  -v $thisdir:/test:Z                     \
+  -v $workspace_host:/workspace:Z         \
+  -v $data_host:/data:Z                   \
+  $image bash $container_test_dir/src/$1
+}
+
