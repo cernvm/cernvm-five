@@ -2,7 +2,7 @@
 # This file is part of CernVM 5. ###
 set -e
 # todo: building a single rpm
-# glibc-langpack-en \
+
 # Used for docker
 dnf install --installroot=$BUILD_DIR --releasever=/  --nodocs --setopt=install_weak_deps=False -y libXpm \
      xauth \
@@ -24,7 +24,7 @@ sudo dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs --setopt=in
 wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-config-default-latest-x86_64.rpm
 rpm -i --root $BUILD_DIR /cernvm-config-default-latest-x86_64.rpm
 
-# Creating .bashrcW
+# Creating .bashrc
 # Sourceing cernvm_config
 echo ". /etc/cernvm/functions" >> $BUILD_DIR/$HOME/.bashrc
 
