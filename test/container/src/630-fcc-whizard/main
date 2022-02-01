@@ -4,8 +4,9 @@
 cvm_test_name="fcc-whizard"
 tags=("-h","-i")
 cvm_run_test() {
-  run_docker_host $t/script.sh
-  res=$?
-  log "Test $cvm_test_name returned $res"
-  return $res
+  if ! run_docker_inside $t/script.sh || ! run_podman_inside $t/script.sh; then
+    return 1
+  fi
+
+  return 0
 }

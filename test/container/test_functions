@@ -46,6 +46,9 @@ run_docker_inside() {
   -v $workspace_host:/workspace:Z          \
   -v $data_host:/data:Z          \
   $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES
   
 }
 
@@ -58,6 +61,9 @@ run_docker_inside() {
   -v $workspace_host:/workspace:Z         \
   -v $data_host:/data:Z                   \
   $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES
 }
 
 # Runs podman container with /test mounted and CernVM FS mounted inside
@@ -69,7 +75,9 @@ run_podman_inside() {
   -v $workspace_host:/workspace:Z          \
   -v $data_host:/data:Z          \
   $image bash $container_test_dir/src/$1
-  
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES 
 }
 
 # Runs podman container with /test mounted and CernVM FS from host
@@ -81,5 +89,7 @@ run_podman_inside() {
   -v $workspace_host:/workspace:Z         \
   -v $data_host:/data:Z                   \
   $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES
 }
-

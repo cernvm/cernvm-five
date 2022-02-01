@@ -4,10 +4,10 @@ cvm_test_name="check_workspace "
 tags=("-i" "-h")
 cvm_run_test() {
   cp **/$t/pre/* $workspace_host
-  run_docker_inside $t/script.sh
-  res=$?
-  rm -f $workspace_host/*
-  log "Test $cvm_test_name returned $res"
-  return $res
+  if ! run_docker_inside $t/script.sh || ! run_podman_inside $t/script.sh; then
+    return 1
+  fi
+
+  return 0
 }
 
