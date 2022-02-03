@@ -6,7 +6,13 @@
 FROM centos:8 AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
-
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
+RUN dnf -y install --nodocs --setopt=install_weak_deps=0 centos-release-stream \
+&& dnf -y swap --nodocs --setopt=install_weak_deps=0 centos-{linux,stream}-repos \
+&& dnf -y distro-sync --nodocs --setopt=install_weak_deps=0  \
+&& dnf -y autoremove \
+&& rm -rf /var/cache/*/* 
 ### Install builder packages ###
 RUN dnf install -y sudo \
     https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm \
