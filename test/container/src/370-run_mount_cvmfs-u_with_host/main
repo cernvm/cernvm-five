@@ -3,9 +3,9 @@
 cvm_test_name="run_mount_cvmfs-u_with_host"
 tags=("-h")
 cvm_run_test() {
-  if ! run_docker_host $t/script.sh || ! run_podman_host $t/script.sh; then
-    return 1
+  if ! run_docker_host $t/script.sh && ! run_podman_host $t/script.sh; then
+    return 0
   fi
 
-  return 0
+  return 1
 }

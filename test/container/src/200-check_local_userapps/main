@@ -8,6 +8,4 @@ cvm_run_test() {
   fi
 
   return 0
-}s
-
-
+}

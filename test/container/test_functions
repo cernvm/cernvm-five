@@ -39,12 +39,13 @@ fi
 
 # Runs docker container with /test mounted and CernVM FS mounted inside
 run_docker_inside() {
-  docker run --rm                          \
-  --device /dev/fuse                       \
-  --cap-add SYS_ADMIN                      \
-  -v $host_test_dir:$container_test_dir:Z  \
-  -v $workspace_host:/workspace:Z          \
-  -v $data_host:/data:Z          \
+  log "Starting $FUNCNAME $cvm_test_name ..." \
+  docker run --rm                             \
+  --device /dev/fuse                          \
+  --cap-add SYS_ADMIN                         \
+  -v $host_test_dir:$container_test_dir:Z     \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
   $image bash $container_test_dir/src/$1
   RES=$?
   log "$FUNCNAME $cvm_test_name returned $RES "
@@ -54,12 +55,13 @@ run_docker_inside() {
 
 # Runs docker container with /test mounted and CernVM FS from host
  run_docker_host() {
-  docker run --rm                         \
-  --cap-add SYS_ADMIN                     \
-  -v /cvmfs:/cvmfs:ro                     \
-  -v $thisdir:/test:Z                     \
-  -v $workspace_host:/workspace:Z         \
-  -v $data_host:/data:Z                   \
+  log "Starting $FUNCNAME $cvm_test_name ..." \
+  docker run --rm                             \
+  --cap-add SYS_ADMIN                         \
+  -v /cvmfs:/cvmfs:ro                         \
+  -v $thisdir:/test:Z                         \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
   $image bash $container_test_dir/src/$1
   RES=$?
   log "$FUNCNAME $cvm_test_name returned $RES "
@@ -68,12 +70,13 @@ run_docker_inside() {
 
 # Runs podman container with /test mounted and CernVM FS mounted inside
 run_podman_inside() {
-  podman run --rm                          \
-  --device /dev/fuse                       \
-  --cap-add SYS_ADMIN                      \
-  -v $host_test_dir:$container_test_dir:Z  \
-  -v $workspace_host:/workspace:Z          \
-  -v $data_host:/data:Z          \
+  log "Starting $FUNCNAME $cvm_test_name ..." \
+  podman run --rm                             \
+  --device /dev/fuse                          \
+  --cap-add SYS_ADMIN                         \
+  -v $host_test_dir:$container_test_dir:Z     \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
   $image bash $container_test_dir/src/$1
   RES=$?
   log "$FUNCNAME $cvm_test_name returned $RES "
@@ -82,12 +85,13 @@ run_podman_inside() {
 
 # Runs podman container with /test mounted and CernVM FS from host
  run_podman_host() {
-  podman run --rm                         \
-  --cap-add SYS_ADMIN                     \
-  -v /cvmfs:/cvmfs:ro                     \
-  -v $thisdir:/test:Z                     \
-  -v $workspace_host:/workspace:Z         \
-  -v $data_host:/data:Z                   \
+  log "Starting $FUNCNAME $cvm_test_name ..." \
+  podman run --rm                             \
+  --cap-add SYS_ADMIN                         \
+  -v /cvmfs:/cvmfs:ro                         \
+  -v $thisdir:/test:Z                         \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
   $image bash $container_test_dir/src/$1
   RES=$?
   log "$FUNCNAME $cvm_test_name returned $RES "
