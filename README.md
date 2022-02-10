@@ -47,14 +47,14 @@ Besides /cvmfs the image comes with two more dedicated host mount points:
 
     buildah bud -t cernvm -f docker/Dockerfile .  
 
-## Pulling from Docker Registry 
+## Pulling from CERN Harbor 
 
-    docker pull jaeberha/cernvm
+    docker pull registry.cern.ch/cernvm/five/cernvm-five:latest
 ### Deriving from the image
 
-CernVM 5 can serve as a baselayer for custom container images. Use
+CernVM 5 can serve as a base layer for custom container images. Use
     
-    FROM cernvm:latest
+    FROM registry.cern.ch/cernvm/five/cernvm-five:latest
     RUN dnf install mypackage
     COPY /myfile / 
 
