@@ -35,6 +35,10 @@ if [ -z $skip ]; then
   exit 1
 fi
 
+xml_file=$6
+
+
+
 log "Hostname: $(hostname)"
 log "Image: $image"
 log 

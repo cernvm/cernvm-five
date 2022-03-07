@@ -4,7 +4,7 @@
 ### Common ###
 
 usage() {
-  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip>"
+  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip> <optional XML-file>"
 }
 
 # logger
@@ -96,4 +96,89 @@ run_podman_inside() {
   RES=$?
   log "$FUNCNAME $cvm_test_name returned $RES "
   return $RES
+}
+
+#
+#  XUnit XML generation helper functions
+#
+
+xunit_preamble() {
+  local xml_file="$1"
+  local scratchdir="$2"
+
+  local num_tests="$(cat ${scratchdir}/num_tests)"
+  local num_fails="$(cat ${scratchdir}/num_failures)"
+  local num_skips="$(cat ${scratchdir}/num_skipped)"
+  local t_start="$(cat ${scratchdir}/starttime)"
+  local t_elapsed="$(cat ${scratchdir}/elapsed)"
+
+  cat > $xml_file << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="$num_tests" failures="$num_fails" disabled="$num_skips" errors="0" timestamp="$t_start" time="$(milliseconds_to_seconds $t_elapsed)" name="CVMFS Test Runner">
+  <testsuite hostname="$CVMFS_PLATFORM_NAME" name="$CVMFS_TEST_SUITE_NAME" timestamp="$CVMFS_TIMESTAMP" tests="$num_tests" failures="$num_fails" disabled="$num_skips" errors="0" time="$(milliseconds_to_seconds $t_elapsed)">
+EOF
+}
+
+xunit_testcase() {
+  local xml_file="$1"
+  local test_scratchdir="$2"
+  local logfile="$3"
+
+  local test_name="$(cat ${test_scratchdir}/name)"
+  local test_number="$(cat ${test_scratchdir}/number)"
+
+  # check if the test was skipped
+  if [ -f ${test_scratchdir}/skipped ]; then
+    cat >> $xml_file << EOF
+    <testcase name="$test_name" status="notrun" time="0.000" classname="$CVMFS_TEST_CLASS_NAME" />
+EOF
+    return 0
+  fi
+
+  local t_elapsed=$(cat ${test_scratchdir}/elapsed)
+
+  # check if the test was a success
+  if [ -f ${test_scratchdir}/success ]; then
+    cat >> $xml_file << EOF
+    <testcase name="$test_name" status="run" time="$(milliseconds_to_seconds $t_elapsed)" classname="$CVMFS_TEST_CLASS_NAME" />
+EOF
+    return 0
+  fi
+
+  local log_begin=$(cat ${test_scratchdir}/log_begin)
+  local log_end=$(cat ${test_scratchdir}/log_end)
+  local log_length=$(( $log_end - $log_begin ))
+
+  # check if the test has failed
+  if [ -f ${test_scratchdir}/failure ]; then
+    local retval="$(cat ${test_scratchdir}/retval)"
+    cat >> $xml_file << EOF
+    <testcase name="$test_name" status="run" time="$(milliseconds_to_seconds $t_elapsed)" classname="$CVMFS_TEST_CLASS_NAME">
+      <failure message="Failed with Retval $retval" type="">
+      <![CDATA[$(head -n $log_end $logfile | tail -n $log_length | sed 's/[[:cntrl:]]//g')]]>
+      </failure>
+    </testcase>
+EOF
+    return 0
+  fi
+}
+
+xunit_epilogue() {
+  local xml_file="$1"
+  cat >> $xml_file << EOF
+  </testsuite>
+</testsuites>
+EOF
+}
+
+export_xunit_xml() {
+  local xml_file="$1"
+  local scratchdir="$2"
+  local logfile="$3"
+
+  xunit_preamble "$xml_file" "$scratchdir"
+  for testcase in $(find $scratchdir -mindepth 1 -maxdepth 1 -type d); do
+    xunit_testcase "$xml_file" "$testcase" "$logfile"
+  done
+  xunit_epilogue "$xml_file"
 }
