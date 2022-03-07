@@ -22,12 +22,12 @@ The image is intended to be a JeOS (Just enough OS) and provides:
 ### CernVM-FS
 For most Use Cases it is sensible to run the image with CernVM-FS either mounted from the host or from the inside of the container. 
 
- - The repository cernvm-five.cern.ch provides common **User Applications** like editors, browsers or cloud tools. It features a Gentoo Prefix to isolate the installed applications from either local or other libraries installed on CernVM-FS
+ - The repository cernvm-five.cern.ch provides common **System Applications** like editors, browsers or cloud tools. It features a Gentoo Prefix to isolate the installed applications from either local or other libraries installed on CernVM-FS
  - Other repositories with **Scientific Applications** can be mounted as usual.
   
  <img src="./rdme/graphics/architecture.png" title="CernVM Layout" style="max-width: 100%;"  />
 
-> **_NOTE:_**  User Applications don't use LD_LIBRARY_PATH and therefore can be run in parallel to other applications from other repositories safely.
+> **_NOTE:_**  System Applications don't use LD_LIBRARY_PATH and therefore can be run in parallel to other applications from other repositories safely.
 
 <br>
 
@@ -41,11 +41,11 @@ Besides /cvmfs the image comes with two more dedicated host mount points:
 ## Building the image
 
 ### With Docker 
-    docker build -f docker/Dockerfile . -t cernvm
+    docker build -f docker/Dockerfile . -t cernvm-five
 
 ### With [Buildah](https://buildah.io/) in for e.g., [in a build container](https://github.com/containers/buildah) 
 
-    buildah bud -t cernvm -f docker/Dockerfile .  
+    buildah bud -t cernvm-five -f docker/Dockerfile .  
 
 ## Pulling from CERN Harbor 
 
@@ -66,19 +66,19 @@ Make sure to use the [dedicated mountpoints](###host-integration) for host integ
 ### Using Docker
 
     Host CernVM-FS
-    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm:latest bash
+    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm-five:latest bash
 
 <br>
 
     Container CernVM-FS
-    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:latest bash
+    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm-five:latest bash
 
 ### Using Podman  
-    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm:latest bash
+    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm-five:latest bash
 
 <br>
 
-    podman run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm:latest bash
+    podman run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm-five:latest bash
 
 
 ---
