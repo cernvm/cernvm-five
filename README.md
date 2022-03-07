@@ -66,23 +66,23 @@ Make sure to use the [dedicated mountpoints](###host-integration) for host integ
 ### Using Docker
 
     Host CernVM-FS
-    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm-five:latest bash
+    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro registry.cern.ch/cernvm/five/cernvm-five:latest bash
 
 <br>
 
     Container CernVM-FS
-    docker run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm-five:latest bash
+    docker run -it --device /dev/fuse --cap-add SYS_ADMIN registry.cern.ch/cernvm/five/cernvm-five:latest bash
 
 ### Using Podman  
-    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro cernvm-five:latest bash
+    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro registry.cern.ch/cernvm/five/cernvm-five:latest bash
 
 <br>
 
-    podman run -it --device /dev/fuse --cap-add SYS_ADMIN cernvm-five:latest bash
+    podman run -it --device /dev/fuse --cap-add SYS_ADMIN registry.cern.ch/cernvm/five/cernvm-five:latest bash
 
 
 ---
 
-## User Application area on CernVM-FS
+## System Application area on CernVM-FS
 
-CernVM 5 comes as a JustEnoughOS, therefore, common user applications are installed on CernVM-FS
+CernVM 5 comes as a JustEnoughOS, therefore, common System Applications are installed on CernVM-FS
