@@ -60,7 +60,6 @@ mapfile -t skip < $skip
 for t in "${testsuite[@]}"
 do
   . ./src/$t/main
-  log "Sourced"
 
   # Check CernVM mount specification
   if [ "$cvmfs_mount" != "-a" ]; then 
@@ -78,7 +77,6 @@ do
 
   log "Starting Test $cvm_test_name"
   cvm_run_test
-  log "started"
   if [ $? != "0" ]; then
     log "Test $cvm_test_name FAILED"
     failed+=("$t")

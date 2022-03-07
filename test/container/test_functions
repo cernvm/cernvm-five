@@ -4,7 +4,7 @@
 ### Common ###
 
 usage() {
-  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip>"
+  echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip> <optional XML-file>"
 }
 
 # logger
@@ -39,7 +39,7 @@ fi
 
 # Runs docker container with /test mounted and CernVM FS mounted inside
 run_docker_inside() {
-  log "Starting $FUNCNAME $cvm_test_name ..." \
+  log "Starting $FUNCNAME $cvm_test_name ..." 
   docker run --rm                             \
   --device /dev/fuse                          \
   --cap-add SYS_ADMIN                         \
@@ -55,7 +55,7 @@ run_docker_inside() {
 
 # Runs docker container with /test mounted and CernVM FS from host
  run_docker_host() {
-  log "Starting $FUNCNAME $cvm_test_name ..." \
+  log "Starting $FUNCNAME $cvm_test_name ..." 
   docker run --rm                             \
   --cap-add SYS_ADMIN                         \
   -v /cvmfs:/cvmfs:ro                         \
@@ -70,7 +70,7 @@ run_docker_inside() {
 
 # Runs podman container with /test mounted and CernVM FS mounted inside
 run_podman_inside() {
-  log "Starting $FUNCNAME $cvm_test_name ..." \
+  log "Starting $FUNCNAME $cvm_test_name ..." 
   podman run --rm                             \
   --device /dev/fuse                          \
   --cap-add SYS_ADMIN                         \
@@ -85,7 +85,7 @@ run_podman_inside() {
 
 # Runs podman container with /test mounted and CernVM FS from host
  run_podman_host() {
-  log "Starting $FUNCNAME $cvm_test_name ..." \
+  log "Starting $FUNCNAME $cvm_test_name ..." 
   podman run --rm                             \
   --cap-add SYS_ADMIN                         \
   -v /cvmfs:/cvmfs:ro                         \
