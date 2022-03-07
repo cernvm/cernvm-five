@@ -35,10 +35,6 @@ if [ -z $skip ]; then
   exit 1
 fi
 
-xml_file=$6
-
-
-
 log "Hostname: $(hostname)"
 log "Image: $image"
 log 
@@ -60,11 +56,11 @@ mapfile -t testsuite < $testsuite
 num_tests=${#testsuite[@]}
 mapfile -t skip < $skip
 
-# Run the tests
 #todo: implement xUnit
 for t in "${testsuite[@]}"
 do
   . ./src/$t/main
+  log "Sourced"
 
   # Check CernVM mount specification
   if [ "$cvmfs_mount" != "-a" ]; then 
@@ -82,7 +78,7 @@ do
 
   log "Starting Test $cvm_test_name"
   cvm_run_test
-
+  log "started"
   if [ $? != "0" ]; then
     log "Test $cvm_test_name FAILED"
     failed+=("$t")
