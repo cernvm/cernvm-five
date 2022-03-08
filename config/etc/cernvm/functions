@@ -29,9 +29,9 @@ fi
 
 }
 
-# Sets up path for cernvm-five.cern.ch/userapps
-setup_userapps() {
-  PRE="/cvmfs/cernvm-five.cern.ch/userapps"
+# Sets up path for cernvm-five.cern.ch/systemapps
+setup_systemapps() {
+  PRE="/cvmfs/cernvm-five.cern.ch/systemapps"
   export PATH=$PATH:$PRE/usr/local/sbin:$PRE/usr/local/bin:$PRE/usr/sbin:$PRE/usr/bin:$PRE/sbin:$PRE/bin
   return $?
 }
@@ -43,9 +43,9 @@ usage() {
   echo "Command                   Description
   mount_cvmfs             Used for mounting CernVM FS repositories
           Options: -a     Mounts every CernVM FS specified in 90-cernvm.conf
-                   -u     Mounts cernvm-five.cern.ch for user applications
+                   -u     Mounts cernvm-five.cern.ch for system applications
 
-  setup_userapps          Sets up PATH for user applications"
+  setup_systemapps         Sets up PATH for system applications"
 }
 
 # Calls the other fuctions
@@ -60,8 +60,8 @@ elif [ $ARG1 == "mount_cvmfs" ]; then
   mount_cvmfs $ARG2
 
 
-elif [ $ARG1 == "setup_userapps" ]; then
-  setup_userapps
+elif [ $ARG1 == "setup_systemapps" ]; then
+  setup_systemapps
 
 else 
   echo "cernvm_config -h for help"

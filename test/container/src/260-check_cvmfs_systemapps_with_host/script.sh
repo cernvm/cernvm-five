@@ -1,8 +1,7 @@
 #!/bin/bash
 . ./etc/cernvm/functions
-. ./etc/cernvm/userapps
-cernvm_config mount_cvmfs -u
-cernvm_config setup_userapps
+. ./etc/cernvm/systemapps
+cernvm_config setup_systemapps
 
 fail=
 for a in "${apps[@]}"

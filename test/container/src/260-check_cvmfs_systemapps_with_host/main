@@ -1,6 +1,6 @@
 #!/bin/bash
 # checks applications on CernVM FS with CernVM FS form host
-cvm_test_name="check_cvmfs_userapps_with_host"
+cvm_test_name="check_cvmfs_systemapps_with_host"
 tags=("-h")
 cvm_run_test() {
   if ! run_docker_host $t/script.sh || ! run_podman_host $t/script.sh; then

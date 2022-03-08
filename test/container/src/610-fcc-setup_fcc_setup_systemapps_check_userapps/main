@@ -1,6 +1,6 @@
 #!/bin/bash
-# Sets up systemapps, then fcc stack and checks systemapps
-cvm_test_name="fcc-setup_systemapps_setup_fcc_check_systemapps"
+# Sets up fcc stack, then platform  and checks systemapps
+cvm_test_name="fcc-setup_fcc_setup_systemapps_check_systemapps"
 tags=("-h","-i")
 cvm_run_test() {
   if ! run_docker_inside $t/script.sh || ! run_podman_inside $t/script.sh; then
@@ -9,3 +9,5 @@ cvm_run_test() {
 
   return 0
 }
+
+
