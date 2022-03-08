@@ -1,6 +1,6 @@
 #!/bin/bash
-# runs cernvm_config mount_cvmfs -u without CernVM FS mounted from host
-cvm_test_name="run_mount_cvmfs-u_inside"
+# runs cernvm_config mount_cvmfs -s without CernVM FS mounted from host
+cvm_test_name="run_mount_cvmfs-s_inside"
 tags=("-i")
 cvm_run_test() {
   if ! run_docker_inside $t/script.sh || ! run_podman_inside $t/script.sh; then

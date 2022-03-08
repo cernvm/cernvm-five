@@ -21,7 +21,7 @@ if [ $ARG1 == "-a" ]; then
 fi
 
 # Mounts cernvm-five.cern.ch
-if [ $ARG1 == "-u" ]; then 
+if [ $ARG1 == "-s" ]; then 
   mkdir -p /cvmfs/cernvm-five.cern.ch
   mount -t cvmfs cernvm-five.cern.ch /cvmfs/cernvm-five.cern.ch
   return $?
@@ -43,7 +43,7 @@ usage() {
   echo "Command                   Description
   mount_cvmfs             Used for mounting CernVM FS repositories
           Options: -a     Mounts every CernVM FS specified in 90-cernvm.conf
-                   -u     Mounts cernvm-five.cern.ch for system applications
+                   -s     Mounts cernvm-five.cern.ch for system applications
 
   setup_systemapps         Sets up PATH for system applications"
 }

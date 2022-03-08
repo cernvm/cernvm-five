@@ -1,3 +1,14 @@
+100-check_LD_LIBRARY_PATH
+110-check_LD_LIBRARY_PATH_after_setup_systemapps
+200-check_local_systemapps
+250-check_cvmfs_systemapps_inside
+260-check_cvmfs_systemapps_with_host
+300-run_mount_cvmfs-a_inside
+350-run_mount_cvmfs-a_with_host
+360-run_mount_cvmfs-s_inside
+370-run_mount_cvmfs-s_with_host
+380-run_setup_systemapps_inside
+390-run_setup_systemapps_with_host
 400-check_workspace
 450-check_data
 500-check-cvmfs_config_files

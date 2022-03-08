@@ -1,7 +1,7 @@
 #!/bin/bash
 . ./etc/cernvm/functions
 . ./etc/cernvm/systemapps
-cernvm_config mount_cvmfs -u
+cernvm_config mount_cvmfs -s
 cernvm_config setup_systemapps
 
 fail=

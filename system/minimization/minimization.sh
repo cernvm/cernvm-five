@@ -14,7 +14,7 @@ sudo rpm --root=$BUILD_DIR -e  cracklib-dicts \
     tar \
     binutils \
     hwdata \
-    shadow-utils \
+    shadow-stils \
     gsettings-desktop-schemas --nodeps  
 
 # Removing cache
