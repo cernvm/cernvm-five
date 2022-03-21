@@ -4,6 +4,9 @@
 mount_cvmfs() {
 ARG1=$1
 
+# Sets up PATH for system applications
+PATH="$PATH::/cvmfs/cernvm-five.cern.ch/systemapps/usr/local/sbin:/cvmfs/cernvm-five.cern.ch/systemapps/usr/local/bin:/cvmfs/cernvm-five.cern.ch/systemapps/usr/sbin:/cvmfs/cernvm-five.cern.ch/systemapps/usr/bin:/cvmfs/cernvm-five.cern.ch/systemapps/sbin:/cvmfs/cernvm-five.cern.ch/systemapps/bin"
+
 # Mounts all cvmfs repos in 90-cernvm.conf
 if [ $ARG1 == "-a" ]; then
   . /etc/cvmfs/default.d/90-cernvm.conf 
