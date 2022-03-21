@@ -1,6 +1,5 @@
 #!/bin/bash
 # This file is part of CernVM 5. ###
-set -e
 # todo: using dnf instead
 # Removing packages
 sudo rpm --root=$BUILD_DIR -e  cracklib-dicts \
