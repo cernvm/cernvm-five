@@ -15,10 +15,10 @@ WORKDIR /
 # && rm -rf /var/cache/*/* 
 ### Install builder packages ###
 COPY /system/install/dnf.conf /etc/dnf/dnf.conf 
-RUN dnf install sudo                                                                 \
-    https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm   \
-    https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm           \
-    https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm   \
+RUN dnf install sudo                                                                \
+    https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  \
+    https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm          \
+    https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm  \
     wget        \
     which       \
     git         \
@@ -32,11 +32,11 @@ RUN dnf install sudo                                                            
 
 ### Install patchELF https://github.com/NixOS/patchelf
 RUN git clone https://github.com/NixOS/patchelf && \
-    cd /patchelf && \
-    ./bootstrap.sh && \
-    ./configure && \
-    make && \
-    make install && \
+    cd /patchelf &&    \
+    ./bootstrap.sh &&  \
+    ./configure &&     \
+    make &&            \
+    make install &&    \
     dnf install -y grep findutils file    
 WORKDIR /    
 
