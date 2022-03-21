@@ -3,7 +3,7 @@
 ### The final image contains a CernVM-FS client and the HEP_OSlibs. It can be used to derive from it. ###
 
 ### Build Stage, preparing a EL8-based builder container https://registry.hub.docker.com/_/rockylinux ###
-FROM rockylinux:8 AS builder
+FROM docker.io/library/rockylinux:8 AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
 # RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
