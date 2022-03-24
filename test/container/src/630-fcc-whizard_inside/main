@@ -1,7 +1,8 @@
 #!/bin/bash
-# Sets up systemapps, then fcc stack and checks systemapps
-cvm_test_name="fcc-setup_systemapps_setup_fcc_check_systemapps"
-tags=("-h","-i")
+# Performs a fcc integration test
+# 
+cvm_test_name="fcc-whizard_inside"
+tags=("-i")
 cvm_run_test() {
   if ! run_docker_inside $t/script.sh || ! run_podman_inside $t/script.sh; then
     return 1

@@ -12,7 +12,10 @@
 400-check_workspace
 450-check_data
 500-check-cvmfs_config_files
-600-fcc-setup_systemapps_setup_fcc_check_systemapps
-610-fcc-setup_fcc_setup_systemapps_check_systemapps
+600-fcc-setup_systemapps_setup_fcc_check_systemapps_inside
+605-fcc-setup_systemapps_setup_fcc_check_systemapps_host
+610-fcc-setup_fcc_setup_systemapps_check_systemapps_inside
+615-fcc-setup_fcc_setup_systemapps_check_systemapps_host
 620-fcc-setup_fcc_setup_check_dnf_wrapper
-630-fcc-whizard
+630-fcc-whizard_inside
+640-fcc-whizard_host

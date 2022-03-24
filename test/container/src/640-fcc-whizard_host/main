@@ -1,0 +1,12 @@
+#!/bin/bash
+# Performs a fcc integration test
+# 
+cvm_test_name="fcc-whizard_host"
+tags=("-h")
+cvm_run_test() {
+  if ! run_docker_host $t/script.sh || ! run_podman_host $t/script.sh; then
+    return 1
+  fi
+
+  return 0
+}

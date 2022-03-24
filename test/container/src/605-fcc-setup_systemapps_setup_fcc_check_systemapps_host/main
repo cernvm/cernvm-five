@@ -1,0 +1,11 @@
+#!/bin/bash
+# Sets up systemapps, then fcc stack and checks systemapps with CVMFS mounted from host
+cvm_test_name="fcc-setup_systemapps_setup_fcc_check_systemapps_host"
+tags=("-h")
+cvm_run_test() {
+  if ! run_docker_host $t/script.sh || ! run_podman_host $t/script.sh; then
+    return 1
+  fi
+
+  return 0
+}
