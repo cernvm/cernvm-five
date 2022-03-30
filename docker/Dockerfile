@@ -1,18 +1,9 @@
 ### This file is part of CernVM 5. ### 
-### This is a multi-stage Dockerfile used for building CernVM 5. ### 
-### The final image contains a CernVM-FS client and the HEP_OSlibs. It can be used to derive from it. ###
-
 ### Build Stage, preparing a EL8-based builder container https://registry.hub.docker.com/_/rockylinux ###
 FROM docker.io/library/rockylinux:8 AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
-# RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-Linux-* &&\
-#     sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-Linux-*
-# RUN dnf -y install --nodocs --setopt=install_weak_deps=0 centos-release-stream \
-# && dnf -y swap --nodocs --setopt=install_weak_deps=0 centos-{linux,stream}-repos \
-# && dnf -y distro-sync --nodocs --setopt=install_weak_deps=0  \
-# && dnf -y autoremove \
-# && rm -rf /var/cache/*/* 
+
 ### Install builder packages ###
 COPY /system/install/dnf.conf /etc/dnf/dnf.conf 
 RUN dnf install sudo                                                                \
