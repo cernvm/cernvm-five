@@ -23,8 +23,11 @@ if [ $ARG1 == "-a" ]; then
   return $res
 fi
 
-# Mounts cernvm-five.cern.ch
+# Mounts cernvm-five.cern.ch and cvmfs-config.cern.ch
 if [ $ARG1 == "-s" ]; then 
+  mkdir -p /cvmfs/cvmfs-config.cern.ch
+  mount -t cvmfs cvmfs-config.cern.ch /cvmfs/cvmfs-config.cern.ch
+  
   mkdir -p /cvmfs/cernvm-five.cern.ch
   mount -t cvmfs cernvm-five.cern.ch /cvmfs/cernvm-five.cern.ch
   return $?
