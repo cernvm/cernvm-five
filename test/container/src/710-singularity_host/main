@@ -1,0 +1,12 @@
+#!/bin/bash
+# Starts singularity with CVMFS mounted from host and runs cat /etc/os-release
+# 
+cvm_test_name="singularity_host"
+tags=("-h")
+cvm_run_test() {
+  if ! run_docker_host $t/script.sh || ! run_podman_host $t/script.sh; then
+    return 1
+  fi
+
+  return 0
+}
