@@ -1,6 +1,5 @@
 #!/bin/bash
 # Starts singularity with CVMFS mounted from host and runs cat /etc/os-release
-# 
 cvm_test_name="singularity_host"
 tags=("-h")
 cvm_run_test() {

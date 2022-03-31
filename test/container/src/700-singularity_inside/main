@@ -1,0 +1,12 @@
+#!/bin/bash
+# Starts singularity with CVMFS mounted inside and runs cat /etc/os-release
+# 
+cvm_test_name="singularity_inside"
+tags=("-i")
+cvm_run_test() {
+  if ! run_docker_inside $t/script.sh || ! run_podman_inside $t/script.sh; then
+    return 1
+  fi
+
+  return 0
+}
