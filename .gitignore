@@ -1,4 +1,5 @@
 *.log
 **/workspace_host
 **/data_host
+*.xml
 
