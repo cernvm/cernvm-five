@@ -35,6 +35,11 @@ if [ -z $skip ]; then
   exit 1
 fi
 
+if [ $6 ]; then
+ xml_file=$6
+ touch $xml_file
+fi
+
 log "Hostname: $(hostname)"
 log "Image: $image"
 log 
@@ -55,15 +60,15 @@ data_host=$thisdir/data_host
 mapfile -t testsuite < $testsuite
 num_tests=${#testsuite[@]}
 mapfile -t skip < $skip
+t_start_testrun=$(set_t_start)
 
-#todo: implement xUnit
 for t in "${testsuite[@]}"
 do
   . ./src/$t/main
 
   # Check CernVM mount specification
   if [ "$cvmfs_mount" != "-a" ]; then 
-    if [[ ! "${tags[*]}" =~ "$cvmfs_mount" ]]; then
+    if [[ ! "${tags[*]}" =~ "$cvmfs_mount" ]] && [[ ! "${skip[*]}" =~ "$t" ]]; then
       skip+=("$t")
       log "Adding $t to tests to be skipped..." 
     fi
@@ -71,14 +76,18 @@ do
 
   if [[ "${skip[*]}" =~ "$t" ]]; then
   log "Skipping Test $cvm_test_name"
+  xunit_skiped
   echo
   continue
   fi
 
   log "Starting Test $cvm_test_name"
+  t_start_casetime=$(set_t_start)
   cvm_run_test
-  if [ $? != "0" ]; then
+  retval=$?
+  if [ $retval != "0" ]; then
     log "Test $cvm_test_name FAILED"
+    xunit_failed
     failed+=("$t")
   else 
     log "Test $cvm_test_name PASSED" 
@@ -108,6 +117,10 @@ do
   log "Test $s was skipped"
 done
 echo
+
+
+xunit_preamble
+xunit_epilogue
 
 log "Summary:"
 log "${#passed[@]} of ${num_tests} tests passed"

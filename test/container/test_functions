@@ -2,7 +2,6 @@
 ### Functions used in run.sh ###
 
 ### Common ###
-
 usage() {
   echo "$0 </path/to/logfile> <image:version> <mount /cvmfs inside -i, from host -h or -a for all> <testsuite> <skip> <optional XML-file>"
 }
@@ -12,7 +11,7 @@ log() {
 echo '['$(date +"%D %T %z")']' $1 | tee -a $logfile
 }
 
-### Docker ###
+### Docker and Podman functions ###
 
 # Checks dockerinstallation
 check_docker() {
@@ -24,7 +23,6 @@ else
   log "Running $(docker --version)"
 fi
 }
-
 
 # Checks for dockerimage to be tested
 check_docker_image() {
@@ -97,3 +95,61 @@ run_podman_inside() {
   log "$FUNCNAME $cvm_test_name returned $RES "
   return $RES
 }
+
+set_t_start() {
+  echo $(date +%s)
+}
+
+# Total secods from $1 being $(date +%s)
+total_time() {
+  echo $(($(date +%s) - $1))
+}
+
+# XUnit XML generation helper functions
+# Generates preamble after test run
+xunit_preamble() {
+  if [ $xml_file ]; then    
+    local num_tests=${num_tests}
+    local num_fails=${#failed[@]}
+    local num_skips=${#skip[@]}
+  
+    pre=$(cat << EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites tests="${num_tests}" failures="${num_fails}" disabled="${num_skips}" errors="0" timestamp="$(date +"%D %T %z")" time="$(total_time $t_start_testrun)" name="CernVM 5 Test Runner">
+  <testsuite hostname="$(hostname)" name="${testsuite}" timestamp="$(date +"%D %T %z")" tests="${num_tests}" failures="${num_fails}" disabled="${num_skips}" errors="0" time="${time}">
+EOF
+)
+
+    echo -e "${pre}\n$(cat ${xml_file})" > ${xml_file}
+    return $?
+  fi
+}
+
+xunit_skiped() {
+  if [ $xml_file ]; then
+    cat >> $xml_file << EOF
+    <testcase name="${cvm_test_name}" status="notrun" time="0" />
+EOF
+  fi
+}
+
+xunit_failed() {
+  if [ $xml_file ]; then
+    cat >> $xml_file << EOF
+    <testcase name="${cvm_test_name}" status="run" time="$(total_time $t_start_casetime)" >
+      <failure message="Failed with Retval ${retval}" type="">
+      </failure>
+    </testcase>
+EOF
+  fi
+}
+
+xunit_epilogue() {
+  if [ $xml_file ]; then
+  cat >> $xml_file << EOF
+  </testsuite>
+</testsuites>
+EOF
+  fi
+}
+
