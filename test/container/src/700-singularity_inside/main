@@ -1,6 +1,5 @@
 #!/bin/bash
 # Starts singularity with CVMFS mounted inside and runs cat /etc/os-release
-# 
 cvm_test_name="singularity_inside"
 tags=("-i")
 cvm_run_test() {
