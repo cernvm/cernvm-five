@@ -2,6 +2,7 @@
 ### Dockerfile for the builder container ###
 
 ### First build Buildah container locally (no pull) https://github.com/containers/buildah 
+### buildah bud --format docker -t builder -f build/container/Dockerfile .
 FROM localhost/redhat_builder_local 
 RUN mkdir -p /build/image_dest  
 

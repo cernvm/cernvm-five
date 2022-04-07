@@ -42,11 +42,13 @@ DEST_DIR="./image_dest"
 
 git clone $REPO_URL
 cd cernvm-five
-buildah bud --format "$OUTPUT_FORMAT" -t "$NAME:$VERSION.$OUTPUT_FORMAT-$ARCH" -f "docker/Dockerfile" . 
+buildah bud --format "$OUTPUT_FORMAT" -t "$NAME:$VERSION.$OUTPUT_FORMAT-$ARCH" -f "docker/Dockerfile" .
 buildah push --format "$OUTPUT_FORMAT" "$NAME:$VERSION.$OUTPUT_FORMAT-$ARCH" docker-archive:"$BUILD_DIR_CONTAINER/$NAME.tar"
 buildah images
 cd $BUILD_DIR_CONTAINER
 gzip -k -v "$NAME.tar"
 
 # move image to host mountpoint $DEST_DIR as .tar.gz
-mv $NAME.tar.gz $DEST_DIR/${NAME}-${VERSION}.${OUTPUT_FORMAT}-${ARCH}.tar.gz
+echo "Copying image to ${DEST_DIR}"
+mv $NAME.tar.gz ${DEST_DIR}/${NAME}-${VERSION}.${OUTPUT_FORMAT}-${ARCH}.tar.gz
+exit $?
