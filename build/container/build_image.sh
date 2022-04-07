@@ -50,5 +50,5 @@ gzip -k -v "$NAME.tar"
 
 # move image to host mountpoint $DEST_DIR as .tar.gz
 echo "Copying image to ${DEST_DIR}"
-mv $NAME.tar.gz ${DEST_DIR}/${NAME}-${VERSION}.${OUTPUT_FORMAT}-${ARCH}.tar.gz
+mv $NAME.tar.gz ${DEST_DIR}/${NAME}-${VERSION}-${OUTPUT_FORMAT}-${ARCH}.tar.gz
 exit $?
