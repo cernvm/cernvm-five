@@ -25,11 +25,8 @@ wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-config-defaul
 rpm -i --root $BUILD_DIR /cernvm-config-default-latest-x86_64.rpm
 
 # Creating .bashrc
-# Sourceing cernvm_config
-echo ". /etc/cernvm/functions" >> $BUILD_DIR/$HOME/.bashrc
-
-# Setting title to CernVM 5
-# echo -e "\e]0;"; echo -n CernVM 5; echo -ne "\007" >> $BUILD_DIR/$HOME/.bashrc
+# Sourceing cernvm_config, set banner and titel of terminal
+echo ". /etc/cernvm/functions && set_banner && set_titel" >> $BUILD_DIR/$HOME/.bashrc
 
 # create mountpoints
 mkdir $BUILD_DIR/workspace
