@@ -20,7 +20,7 @@ fi
 
 REPO_URL="https://github.com/cernvm/cernvm-five"
 git clone $REPO_URL
-
+cd /build/cernvm-five
 rpmbuild -ba ./rpm/cernvm-system.spec 
 
 DEST_DIR="/build/rpm_dest"
