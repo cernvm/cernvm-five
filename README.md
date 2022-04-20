@@ -26,7 +26,7 @@ For most Use Cases it is sensible to run the image with CernVM-FS either mounted
  - The repository cernvm-five.cern.ch provides common **System Applications** like editors, browsers or cloud tools. 
  - Other repositories with **Scientific Applications** can be mounted as usual.
   
- <img src="./rdme/graphics/architecture.png" title="CernVM Layout" style="max-width: 100%;"  />
+ <img src="./doc/img/architecture.png" title="CernVM Layout" style="max-width: 100%;"  />
 
 > **_NOTE:_**  System Applications don't use LD_LIBRARY_PATH and therefore can be run in parallel to other applications from other repositories safely.
 
