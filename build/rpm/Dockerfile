@@ -10,5 +10,6 @@ RUN rpmdev-setuptree
 
 ### Copy build script###     
 COPY build/rpm/build_cernvm_config_rpm.sh /build
+COPY build/rpm/build_cernvm_system_rpm.sh /build
 WORKDIR /build
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch"
