@@ -18,13 +18,22 @@ if [ -z $BUILD_NUMBER ]; then
   exit 1
 fi
 
+CVM_SOURCE_LOCATION="config/etc"
+CVM_RESULT_LOCATION="/root/rpmbuild"
+
 REPO_URL="https://github.com/cernvm/cernvm-five"
 git clone $REPO_URL
- 
-cd cernvm-five/rpm
-rpmbuild -ba cernvm-config.spec 
+
+cd /build/cernvm-five
+cp ${CVM_SOURCE_LOCATION}/cernvm/functions                        ${CVM_RESULT_LOCATION}/SOURCES
+cp ${CVM_SOURCE_LOCATION}/cernvm/systemapps                       ${CVM_RESULT_LOCATION}/SOURCES
+cp ${CVM_SOURCE_LOCATION}/cvmfs/config.d/cernvm-five.cern.ch.conf ${CVM_RESULT_LOCATION}/SOURCES
+cp ${CVM_SOURCE_LOCATION}/cvmfs/default.d/90-cernvm.conf          ${CVM_RESULT_LOCATION}/SOURCES
+cp ${CVM_SOURCE_LOCATION}/cvmfs/keys/cernvm-five.cern.ch.pub      ${CVM_RESULT_LOCATION}/SOURCES
+
+rpmbuild -ba ./rpm/cernvm-config.spec 
 
 DEST_DIR="/build/rpm_dest"
 
 # move rpm to host mountpoint $DEST_DIR 
-mv /root/rpmbuild/RPMS/x86_64/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.x86_64.rpm
+mv /root/rpmbuild/RPMS/x86_64/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.$(uname -m).rpm

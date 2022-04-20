@@ -1,7 +1,7 @@
 ### This file is part of CernVM 5. ###
 ### Dockerfile for rpm build container ###
 
-FROM centos:8
+FROM rockylinux:8
 RUN mkdir -p /build/rpm_dest  
 
 ### Install rpm software and set up tree ###
