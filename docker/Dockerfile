@@ -38,9 +38,13 @@ RUN mkdir build
 COPY /system/install/install_cvmfs.sh /
 RUN bash install_cvmfs.sh
 
-### Add rPath to ELF executables
+### Add rPath to ELF executables ###
 COPY /system/install/patch.sh /
 RUN bash patch.sh $BUILD_DIR 
+
+### Create mountpoints
+RUN mkdir $BUILD_DIR/workspace
+RUN mkdir $BUILD_DIR/data
 
 ### Removing some unnecessary packages and caches ###
 COPY /system/minimization/minimization.sh /
