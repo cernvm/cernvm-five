@@ -6,10 +6,11 @@ Release: 1
 Group: Applications/System
 License: BSD
 
+Requires: libXpm
 Requires: cvmfs
 Requires: HEP_OSlibs
 Requires: dnf
-Requires: libXpm
+
 
 %description
 Meta-package including a CernVM-FS Client and HEP_OSlibs for CernVM 5.
