@@ -31,8 +31,9 @@ RUN git clone https://github.com/NixOS/patchelf && \
     dnf install -y grep findutils file    
 WORKDIR /    
 
-### Installing into /build via rootinstall ###
+### Installing into /build via root install ###
 RUN mkdir build
+RUN dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs glibc-langpack-en
 
 ### Install CernVM-FS, HEP_OSlibs and dnf into /build ###
 COPY /system/install/install_cvmfs.sh /
