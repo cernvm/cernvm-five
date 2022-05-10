@@ -1,6 +1,8 @@
 ### This file is part of CernVM 5. ### 
-### Build Stage, preparing a EL8-based builder container https://registry.hub.docker.com/_/rockylinux ###
-FROM docker.io/library/rockylinux:8 AS builder
+### Build Stage, preparing a EL8-based builder container ###
+FROM centos:8 AS builder
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 ENV BUILD_DIR=/build 
 WORKDIR /
 
@@ -33,7 +35,9 @@ WORKDIR /
 
 ### Installing into /build via root install ###
 RUN mkdir build
-RUN dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs glibc-langpack-en
+RUN dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs glibc-langpack-en dnf
+RUN sed -i 's/mirrorlist/#mirrorlist/g' $BUILD_DIR/etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' $BUILD_DIR/etc/yum.repos.d/CentOS-*
 
 ### Install CernVM-FS, HEP_OSlibs and dnf into /build ###
 COPY /system/install/install_cvmfs.sh /
@@ -57,6 +61,6 @@ FROM scratch as cernvm
 COPY --from=builder /build /
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
-LABEL io.k8s.description="A container image providing CernVM FS and HEP_OSlibs"
+LABEL io.k8s.description="A container image providing CernVM-FS and HEP_OSlibs"
 WORKDIR /
 STOPSIGNAL SIGINT
