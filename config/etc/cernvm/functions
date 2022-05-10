@@ -86,16 +86,11 @@ wrapped_dnf() {
     return $res
 }
 
+alias yum='/usr/bin/dnf "$@"'
+
 set_banner() {
-echo "  _____            __      ____  __   _____ 
- / ____|           \ \    / /  \/  | | ____|
-| |     ___ _ __ _ _\ \  / /| \  / | | |__  
-| |    / _ \ '__| '_ \ \/ / | |\/| | |___ \ 
-| |___|  __/ |  | | | \  /  | |  | |  ___) |
- \_____\___|_|  |_| |_|\/   |_|  |_| |____/                                            
-$(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)
-$(rpm -iq --queryformat 'CernVM-FS    : %{VERSION}\n' cvmfs)
-$(rpm -iq --queryformat 'HEP_OSlibs   : %{VERSION}\n' HEP_OSlibs)"
+echo -e "\033[32mCernVM Appliance v5\033[0m" 
+echo "$(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)"
 }
 
 set_titel() {
