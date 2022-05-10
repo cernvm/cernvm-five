@@ -93,11 +93,9 @@ echo "  _____            __      ____  __   _____
 | |    / _ \ '__| '_ \ \/ / | |\/| | |___ \ 
 | |___|  __/ |  | | | \  /  | |  | |  ___) |
  \_____\___|_|  |_| |_|\/   |_|  |_| |____/                                            
-v5 BETA 
 $(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)
 $(rpm -iq --queryformat 'CernVM-FS    : %{VERSION}\n' cvmfs)
-$(rpm -iq --queryformat 'HEP_OSlibs   : %{VERSION}\n' HEP_OSlibs)
-github.com/cernvm/cernvm-five"
+$(rpm -iq --queryformat 'HEP_OSlibs   : %{VERSION}\n' HEP_OSlibs)"
 }
 
 set_titel() {
