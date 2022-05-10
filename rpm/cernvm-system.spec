@@ -10,6 +10,7 @@ Requires: libXpm
 Requires: cvmfs
 Requires: HEP_OSlibs
 Requires: dnf
+Requires: cernvm-config-default
 
 
 %description
