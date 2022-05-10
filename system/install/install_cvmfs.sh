@@ -7,11 +7,13 @@ dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs https://linuxsof
 dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  
 
 # CernVM config and system
-wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-system-default-latest-x86_64.rpm
-dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs /cernvm-system-default-latest-x86_64.rpm
 
 wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-config-default-latest-x86_64.rpm
 dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs /cernvm-config-default-latest-x86_64.rpm
+
+wget -P / http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-system-default-latest-x86_64.rpm
+dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs /cernvm-system-default-latest-x86_64.rpm
+
 
 # Creating .bashrc
 # Sourceing cernvm_config, set banner and titel of terminal
