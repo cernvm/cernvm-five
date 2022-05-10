@@ -1,6 +1,5 @@
 ### This file is part of CernVM 5. ###
 ### Dockerfile for rpm build container ###
-
 FROM rockylinux:8
 RUN mkdir -p /build/rpm_dest  
 
