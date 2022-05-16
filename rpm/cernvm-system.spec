@@ -6,11 +6,13 @@ Release: 1
 Group: Applications/System
 License: BSD
 
-Requires: libXpm
+Requires: dnf
 Requires: cvmfs
 Requires: HEP_OSlibs
-Requires: dnf
+Requires: libXpm
 Requires: cernvm-config-default
+Requires: cvmfs-release
+Requires: wlcg-repo
 
 
 %description
