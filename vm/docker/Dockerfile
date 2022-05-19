@@ -1,6 +1,6 @@
 ### This file is part of CernVM 5. ### 
 ### Dockerfile used to build root-filesystem for CernVM5
-### Use for e. g. docker build -f docker/Dockerfile . --build-arg BASE="my_image" -t cer
+### Use for e. g. docker build -f docker/Dockerfile . --build-arg BASE="my_image"
 ARG BASE=registry.cern.ch/cernvm/five/cernvm-five:latest
 FROM $BASE
 USER root

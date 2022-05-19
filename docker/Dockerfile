@@ -1,11 +1,12 @@
 ### This file is part of CernVM 5. ### 
 ### Build Stage, preparing a EL8-based builder container ###
-FROM rockylinux:8 AS builder
+FROM docker.io/library/rockylinux:8 AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
 
 ### Install builder packages ###
-COPY /system/install/dnf.conf /etc/dnf/dnf.conf 
+COPY /system/install/dnf.conf /etc/dnf/dnf.conf
+RUN dnf update && dnf clean all 
 RUN dnf install sudo                                                                \
     https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  \
     https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm          \
