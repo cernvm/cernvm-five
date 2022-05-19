@@ -1,8 +1,6 @@
 ### This file is part of CernVM 5. ### 
 ### Build Stage, preparing a EL8-based builder container ###
-FROM centos:8 AS builder
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+FROM rockylinux:8 AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
 
@@ -35,9 +33,6 @@ WORKDIR /
 
 ### Installing into /build via root install ###
 RUN mkdir build
-RUN dnf install --installroot=$BUILD_DIR --releasever=/ --nodocs glibc-langpack-en dnf
-RUN sed -i 's/mirrorlist/#mirrorlist/g' $BUILD_DIR/etc/yum.repos.d/CentOS-* && \
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' $BUILD_DIR/etc/yum.repos.d/CentOS-*
 
 ### Install CernVM-FS, HEP_OSlibs and dnf into /build ###
 COPY /system/install/install_cvmfs.sh /
@@ -50,10 +45,6 @@ RUN bash patch.sh $BUILD_DIR
 ### Create mountpoints
 RUN mkdir $BUILD_DIR/workspace
 RUN mkdir $BUILD_DIR/data
-
-### Removing some unnecessary packages and caches ###
-COPY /system/minimization/minimization.sh /
-RUN bash minimization.sh
 
 ### Final Stage ###
 ### Copying /build to scratch ###
