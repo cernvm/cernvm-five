@@ -1,6 +1,6 @@
 #!/bin/bash
 ### This file is part of CernVM 5. ###
-# Script is used to build a CernVM 5 system rpm ###
+# Script is used to build a CernVM 5 kernel rpm ###
 set -e
 usage() {
   echo "$0 <rpm nametag> <jenkins-buildnumber (injected)>"
@@ -21,7 +21,7 @@ fi
 REPO_URL="https://github.com/cernvm/cernvm-five"
 git clone $REPO_URL
 cd /build/cernvm-five
-rpmbuild -ba ./rpm/cernvm-system.spec 
+rpmbuild -ba ./rpm/cernvm-kernel.spec 
 
 DEST_DIR="/build/rpm_dest"
 

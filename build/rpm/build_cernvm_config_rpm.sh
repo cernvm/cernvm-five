@@ -36,4 +36,4 @@ rpmbuild -ba ./rpm/cernvm-config.spec
 DEST_DIR="/build/rpm_dest"
 
 # move rpm to host mountpoint $DEST_DIR 
-mv /root/rpmbuild/RPMS/x86_64/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.$(uname -m).rpm
+mv /root/rpmbuild/RPMS/$(uname -m)/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.$(uname -m).rpm
