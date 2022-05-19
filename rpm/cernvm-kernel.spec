@@ -11,6 +11,7 @@ Requires: systemd
 Requires: NetworkManager
 Requires: e2fsprogs
 Requires: sudo
+Requires: dracut
 
 %description
 Meta-package including packages to build a kernel-enabled CernVM 5 Image
