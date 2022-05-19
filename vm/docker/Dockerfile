@@ -1,16 +1,14 @@
 ### This file is part of CernVM 5. ### 
 ### Dockerfile used to build root-filesystem for CernVM5
-FROM registry.cern.ch/cernvm/five/cernvm-five:latest
+### Use for e. g. docker build -f docker/Dockerfile . --build-arg BASE="my_image" -t cer
+ARG BASE=registry.cern.ch/cernvm/five/cernvm-five:latest
+FROM $BASE
 USER root
 
 RUN dnf update -y
 
-# TODO: Use meta-rpm
-RUN dnf install -y kernel-core  \
-systemd         \
-NetworkManager  \
-e2fsprogs       \
-sudo 
+### Installing 
+RUN dnf install -y http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-kernel-default-latest-x86_64.rpm
     
 RUN systemctl enable NetworkManager && \
     systemctl unmask systemd-remount-fs.service && \
