@@ -25,6 +25,7 @@ REPO_URL="https://github.com/cernvm/cernvm-five"
 git clone $REPO_URL
 
 cd /build/cernvm-five
+cp ${CVM_SOURCE_LOCATION}/cernvm/functions                        ${CVM_RESULT_LOCATION}/SOURCES
 cp ${CVM_SOURCE_LOCATION}/cvmfs/config.d/cernvm-five.cern.ch.conf ${CVM_RESULT_LOCATION}/SOURCES
 cp ${CVM_SOURCE_LOCATION}/cvmfs/default.d/90-cernvm.conf          ${CVM_RESULT_LOCATION}/SOURCES
 cp ${CVM_SOURCE_LOCATION}/cvmfs/keys/cernvm-five.cern.ch.pub      ${CVM_RESULT_LOCATION}/SOURCES
