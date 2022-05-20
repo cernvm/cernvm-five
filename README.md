@@ -54,12 +54,12 @@ Besides /cvmfs the image comes with two more dedicated host mount points:
 ### Deriving from the image
 
 CernVM 5 can serve as a base layer for custom container images. For e.g. use
-    
-    FROM registry.cern.ch/cernvm/five/cernvm-five:latest
-    RUN dnf install mypackage
-    COPY /my_init.sh / 
-    ENTRYPOINT ["bash", "/my_init.sh"]
-
+```dockerfile    
+FROM registry.cern.ch/cernvm/five/cernvm-five:latest
+RUN dnf -y install mypackage
+COPY /my_init.sh / 
+ENTRYPOINT ["bash", "/my_init.sh"]
+```
 to extend the image as you wish.
 
 ---
