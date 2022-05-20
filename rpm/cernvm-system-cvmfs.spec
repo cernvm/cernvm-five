@@ -1,5 +1,5 @@
 Summary: CernVM 5 system applications meta-package for CVMFS
-Name: cernvm-system applications-default
+Name: cernvm-system-cvmfs-default
 Version: 1.0.0
 Group: System/Middleware
 Release: 1
