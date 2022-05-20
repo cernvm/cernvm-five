@@ -1,5 +1,0 @@
-### This file is part of CernVM 5. ### 
-### System apps installed on CernVM FS (cernvm-five.cern.ch) and in the image ###
-
-apps=("nano" "vim" "ping" "wget" "strace" "tree" "diff" "cmp" "dnf" "ed" "patchelf")
-
