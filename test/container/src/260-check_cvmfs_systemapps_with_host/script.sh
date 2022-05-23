@@ -1,7 +1,5 @@
 #!/bin/bash
-. ./etc/cernvm/functions
-. ./etc/cernvm/systemapps
-cernvm_config setup_systemapps
+apps=("nano" "vim" "ping" "wget" "strace" "tree" "diff" "cmp" "dnf" "ed" "patchelf")
 
 fail=
 for a in "${apps[@]}"
