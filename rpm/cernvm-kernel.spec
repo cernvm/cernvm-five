@@ -12,6 +12,8 @@ Requires: NetworkManager
 Requires: e2fsprogs
 Requires: sudo
 Requires: dracut
+Requires: qemu-guest-agent
+Requires: openssh-server
 
 %description
 Meta-package including packages to build a kernel-enabled CernVM 5 Image
