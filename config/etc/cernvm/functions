@@ -5,6 +5,7 @@
 export PATH="$PATH:/cvmfs/cernvm-five.cern.ch/systemapps/usr/local/sbin:/cvmfs/cernvm-five.cern.ch/systemapps/usr/local/bin:/cvmfs/cernvm-five.cern.ch/systemapps/usr/sbin:/cvmfs/cernvm-five.cern.ch/systemapps/usr/bin:/cvmfs/cernvm-five.cern.ch/systemapps/sbin:/cvmfs/cernvm-five.cern.ch/systemapps/bin"
 
 mount_cvmfs() {
+# TODO: Proper option handeling
 ARG1=$1
 
 # Mounts all cvmfs repos in 90-cernvm.conf
@@ -91,6 +92,7 @@ alias yum='/usr/bin/dnf "$@"'
 set_banner() {
 echo -e "\033[32mCernVM Appliance v5\033[0m" 
 echo "$(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)"
+echo "https://github.com/cernvm/cernvm-five"
 }
 
 set_titel() {
