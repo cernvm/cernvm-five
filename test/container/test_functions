@@ -55,7 +55,6 @@ run_docker_inside() {
  run_docker_host() {
   log "Starting $FUNCNAME $cvm_test_name ..." 
   docker run --rm                             \
-  --cap-add SYS_ADMIN                         \
   -v /cvmfs:/cvmfs:ro                         \
   -v $thisdir:/test:Z                         \
   -v $workspace_host:/workspace:Z             \
@@ -85,7 +84,6 @@ run_podman_inside() {
  run_podman_host() {
   log "Starting $FUNCNAME $cvm_test_name ..." 
   podman run --rm                             \
-  --cap-add SYS_ADMIN                         \
   -v /cvmfs:/cvmfs:ro                         \
   -v $thisdir:/test:Z                         \
   -v $workspace_host:/workspace:Z             \
