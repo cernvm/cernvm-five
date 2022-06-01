@@ -1,6 +1,2 @@
-200-check_local_systemapps
-250-check_cvmfs_systemapps_inside
-260-check_cvmfs_systemapps_with_host
-640-fcc-whizard_host
 700-singularity_inside
 710-singularity_host
