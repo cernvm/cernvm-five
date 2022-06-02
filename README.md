@@ -66,14 +66,14 @@ to extend the image as you wish.
 ## Running the image as a container 
 Make sure to use the [dedicated mountpoints](#host-integration) for host integration. It is recommended to run the image with either CernVM-FS mounted from the host or with an independent CernVM-FS client inside the container
 ### Using Docker
-    docker run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro registry.cern.ch/cernvm/five/cernvm-five:latest bash
+    docker run -it -v /cvmfs:/cvmfs:ro registry.cern.ch/cernvm/five/cernvm-five:latest bash
 
 <br>
 
     docker run -it --device /dev/fuse --cap-add SYS_ADMIN registry.cern.ch/cernvm/five/cernvm-five:latest bash
     
 ### Using Podman  
-    podman run -it --cap-add SYS_ADMIN -v /cvmfs:/cvmfs:ro registry.cern.ch/cernvm/five/cernvm-five:latest bash
+    podman run -it -v /cvmfs:/cvmfs:ro registry.cern.ch/cernvm/five/cernvm-five:latest bash
 
 <br>
 
