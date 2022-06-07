@@ -6,6 +6,7 @@ export PATH="$PATH:/cvmfs/cernvm-five.cern.ch/systemapps/usr/local/sbin:/cvmfs/c
 
 mount_cvmfs() {
 # TODO: Proper option handeling
+# TODO: Use Alien Cache if available
 ARG1=$1
 
 # Mounts all cvmfs repos in 90-cernvm.conf
