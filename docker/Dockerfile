@@ -7,19 +7,18 @@ WORKDIR /
 ### Install builder packages ###
 COPY /system/install/dnf.conf /etc/dnf/dnf.conf
 RUN dnf update && dnf clean all 
-RUN dnf install sudo                                                                \
+RUN dnf install wget                                                                \
     https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  \
-    https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm          \
     https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm  \
-    wget        \
-    which       \
-    git         \
-    autoconf    \
-    make        \
-    gcc         \
-    gcc-c++     \
-    gdb         \
-    glibc-devel \
+    epel-release \
+    which        \
+    git          \
+    autoconf     \
+    make         \
+    gcc          \
+    gcc-c++      \
+    gdb          \
+    glibc-devel  \
     libtool
 
 ### Install patchELF https://github.com/NixOS/patchelf
@@ -56,3 +55,4 @@ LABEL io.k8s.display-name="CernVM"
 LABEL io.k8s.description="A container image providing CernVM-FS and HEP_OSlibs"
 WORKDIR /
 STOPSIGNAL SIGINT
+CMD [ "bash" ]
