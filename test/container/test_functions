@@ -13,7 +13,7 @@ echo '['$(date +"%D %T %z")']' $1 | tee -a $logfile
 
 ### Docker and Podman functions ###
 
-# Checks dockerinstallation
+# Checks Docker installation
 check_docker() {
 docker --version  
 if [ $? -ne 0 ]; then
@@ -85,6 +85,68 @@ run_podman_inside() {
   log "Starting $FUNCNAME $cvm_test_name ..." 
   podman run --rm                             \
   -v /cvmfs:/cvmfs:ro                         \
+  -v $thisdir:/test:Z                         \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
+  $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES
+}
+
+### For privileged containers ###
+# Runs privileged docker container with /test mounted and CernVM FS mounted inside
+run_docker_inside_privileged() {
+  log "Starting $FUNCNAME $cvm_test_name ..." 
+  docker run --rm                             \
+  --device /dev/fuse                          \
+  --privileged                                \
+  -v $host_test_dir:$container_test_dir:Z     \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
+  $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES
+  
+}
+
+# Runs privileged docker container with /test mounted and CernVM FS from host
+ run_docker_host_privileged() {
+  log "Starting $FUNCNAME $cvm_test_name ..." 
+  docker run --rm                             \
+  -v /cvmfs:/cvmfs:ro                         \
+  --privileged                                \
+  -v $thisdir:/test:Z                         \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
+  $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES
+}
+
+# Runs privileged podman container with /test mounted and CernVM FS mounted inside
+run_podman_inside_privileged() {
+  log "Starting $FUNCNAME $cvm_test_name ..." 
+  podman run --rm                             \
+  --device /dev/fuse                          \
+  --privileged                                \
+  -v $host_test_dir:$container_test_dir:Z     \
+  -v $workspace_host:/workspace:Z             \
+  -v $data_host:/data:Z                       \
+  $image bash $container_test_dir/src/$1
+  RES=$?
+  log "$FUNCNAME $cvm_test_name returned $RES "
+  return $RES 
+}
+
+# Runs privileged podman container with /test mounted and CernVM FS from host
+ run_podman_host_privileged() {
+  log "Starting $FUNCNAME $cvm_test_name ..." 
+  podman run --rm                             \
+  -v /cvmfs:/cvmfs:ro                         \
+  --privileged                                \
   -v $thisdir:/test:Z                         \
   -v $workspace_host:/workspace:Z             \
   -v $data_host:/data:Z                       \

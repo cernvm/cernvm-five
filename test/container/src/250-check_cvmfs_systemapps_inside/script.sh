@@ -1,5 +1,6 @@
 #!/bin/bash
 apps=("nano" "vim" "ping" "wget" "strace" "tree" "diff" "cmp" "dnf" "ed" "patchelf")
+. /etc/cernvm/functions
 cernvm_config mount_cvmfs -s
 
 fail=

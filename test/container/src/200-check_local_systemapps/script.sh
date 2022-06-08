@@ -1,6 +1,6 @@
 #!/bin/bash
 fail=
-apps=("nano" "ping" "vim" "http_ping" "yum" "grubby")
+apps=("nano" "ping" "vim" "http_ping" "yum")
 for a in "${apps[@]}"
 do
   which $a
