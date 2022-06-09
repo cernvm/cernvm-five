@@ -5,6 +5,7 @@ Group: System/Middleware
 Release: 1
 Group: Applications/System
 License: BSD
+BuildArch: noarch
 
 Requires: kernel-core
 Requires: systemd

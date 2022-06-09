@@ -26,4 +26,4 @@ rpmbuild -ba ./rpm/cernvm-system-cvmfs.spec
 DEST_DIR="/build/rpm_dest"
 
 # move rpm to host mountpoint $DEST_DIR 
-mv /root/rpmbuild/RPMS/$(uname -m)/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.$(uname -m).rpm
+mv /root/rpmbuild/RPMS/noarch/*.rpm $DEST_DIR/${NAME}-1.${BUILD_NUMBER}.noarch.rpm
