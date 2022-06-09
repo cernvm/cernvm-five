@@ -7,6 +7,7 @@ Source0: functions
 Source1: 90-cernvm.conf
 Source2: cernvm-five.cern.ch.conf
 Source3: cernvm-five.cern.ch.pub
+BuildArch: noarch
 License: BSD
 
 %description
