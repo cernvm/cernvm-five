@@ -7,19 +7,22 @@ WORKDIR /
 ### Install builder packages ###
 COPY /system/install/dnf.conf /etc/dnf/dnf.conf
 RUN dnf update && dnf clean all 
-RUN dnf install wget                                                                \
+RUN dnf install autoconf \
+    epel-release  \
+    findutils     \
+    findutils     \
+    gcc           \
+    gcc-c++       \
+    gdb           \
+    git           \
+    glibc-devel   \
+    grep          \
     https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  \
     https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm  \
-    epel-release \
-    which        \
-    git          \
-    autoconf     \
-    make         \
-    gcc          \
-    gcc-c++      \
-    gdb          \
-    glibc-devel  \
-    libtool
+    libtool       \
+    make          \
+    wget          \
+    which         
 
 ### Install patchELF https://github.com/NixOS/patchelf
 RUN git clone https://github.com/NixOS/patchelf && \
@@ -27,8 +30,7 @@ RUN git clone https://github.com/NixOS/patchelf && \
     ./bootstrap.sh &&  \
     ./configure &&     \
     make &&            \
-    make install &&    \
-    dnf install -y grep findutils file    
+    make install
 WORKDIR /    
 
 ### Installing into /build via root install ###
@@ -48,11 +50,14 @@ RUN mkdir $BUILD_DIR/data
 
 ### Final Stage ###
 ### Copying /build to scratch ###
-FROM scratch as cernvm
+FROM scratch AS cernvm
+# ONBUILD RUN patchelf ...
 COPY --from=builder /build /
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing CernVM-FS and HEP_OSlibs"
+EXPOSE 8888
 WORKDIR /
-STOPSIGNAL SIGINT
+RUN dnf -y clean all
+STOPSIGNAL SIGTERM
 CMD [ "bash" ]
