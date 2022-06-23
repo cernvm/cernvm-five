@@ -17,6 +17,7 @@ Requires: diffutils
 Requires: ed
 Requires: bc
 Requires: nano
+Requires: chrpath
 
 %description
 Meta-package including packages to build a CernVM 5 system applications area on CernVM-FS.
