@@ -8,7 +8,7 @@ USER root
 RUN dnf -y update && dnf -y clean all
 
 ### Installing cernvm-kernel-default meta-package
-RUN dnf install -y http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-kernel-default-latest-x86_64.rpm
+RUN dnf install -y http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-kernel-default-latest-noarch.rpm
     
 RUN systemctl enable NetworkManager && \
     systemctl unmask systemd-remount-fs.service && \
