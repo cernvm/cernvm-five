@@ -9,7 +9,7 @@ COPY /system/install/dnf.conf /etc/dnf/dnf.conf
 RUN dnf update && dnf clean all 
 RUN dnf install autoconf \
     epel-release  \
-    find          \
+    file          \
     findutils     \
     gcc           \
     gcc-c++       \
