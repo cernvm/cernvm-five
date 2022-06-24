@@ -9,7 +9,7 @@ COPY /system/install/dnf.conf /etc/dnf/dnf.conf
 RUN dnf update && dnf clean all 
 RUN dnf install autoconf \
     epel-release  \
-    findutils     \
+    find          \
     findutils     \
     gcc           \
     gcc-c++       \
@@ -51,7 +51,7 @@ RUN mkdir $BUILD_DIR/data
 ### Final Stage ###
 ### Copying /build to scratch ###
 FROM scratch AS cernvm
-# ONBUILD RUN patchelf ...
+# TODO: ONBUILD RUN patchelf ...
 COPY --from=builder /build /
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
