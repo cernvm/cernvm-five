@@ -9,6 +9,7 @@ BuildArch: noarch
 
 Requires: dnf
 Requires: bash
+Requires: HEP_OSlibs
 Requires: vim
 Requires: iputils
 Requires: wget
@@ -18,6 +19,8 @@ Requires: ed
 Requires: bc
 Requires: nano
 Requires: chrpath
+Requires: tar
+Requires: grep
 
 %description
 Meta-package including packages to build a CernVM 5 system applications area on CernVM-FS.
