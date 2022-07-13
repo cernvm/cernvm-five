@@ -104,9 +104,12 @@ done
 print_version(){
   log "$(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)"
   log "$(rpm -iq --queryformat 'CernVM System: %{VERSION}\n' cernvm-system-default)"
-  log "$(rpm -iq --queryformat 'CernVM Kernel: %{VERSION}\n' cernvm-kernel-default)" &>/dev/null
+  if rpm -q cernvm-kernel-default; then
+    log "$(rpm -iq --queryformat 'CernVM Kernel: %{VERSION}\n' cernvm-kernel-default)"
+  fi
+
   if [ -d /cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm ]; then
-    log "$(rpm -iq --dbpath=/cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm --queryformat 'Mounted CernVM 5 System Applications: %{VERSION}\n' cernvm-system-cvmfs-default)" &>/dev/null
+    log "$(rpm -iq --dbpath=/cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm --queryformat 'Mounted CernVM 5 System Applications: %{VERSION}\n' cernvm-system-cvmfs-default)" 2> /dev/null
   fi
   exit 0
 }
