@@ -1,6 +1,6 @@
 #!/bin/bash
-. /etc/cernvm/functions
-cernvm_config mount_cvmfs -s
+. /etc/cernvm/cernvm_env.sh
+cernvm_config mount -s
 mkdir /cvmfs/fcc.cern.ch /cvmfs/sw-nightlies.hsf.org /cvmfs/sw.hsf.org
 mount -t cvmfs  fcc.cern.ch /cvmfs/fcc.cern.ch
 mount -t cvmfs  sw-nightlies.hsf.org /cvmfs/sw-nightlies.hsf.org
@@ -8,10 +8,7 @@ mount -t cvmfs  sw.hsf.org /cvmfs/sw.hsf.org
 
 mkdir /tutorial && cd /tutorial 
 
-source /cvmfs/sw-nightlies.hsf.org/key4hep/setup.sh
-
-### whizard ### 
-# TODO
+source /cvmfs/sw.hsf.org/spackages4/key4hep-stack/release-2021-10-29-ip7764o/x86_64-centos8-gcc8.4.1-opt/setup.sh
 
 ### KKMCee ###
 KKMCee -h

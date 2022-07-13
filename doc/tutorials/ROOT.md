@@ -2,7 +2,7 @@
    
     docker run -it --device /dev/fuse --cap-add SYS_ADMIN -p 8888:8888 -v ~/workspace:/workspace:Z registry.cern.ch/cernvm/five/cernvm-five:root bash
 
-    cernvm_config mount_cvmfs -s
+    cernvm_config mount -s
     
     mkdir /cvmfs/sft.cern.ch
     
