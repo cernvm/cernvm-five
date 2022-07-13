@@ -3,10 +3,10 @@
 200-check_local_systemapps
 250-check_cvmfs_systemapps_inside
 260-check_cvmfs_systemapps_with_host
-300-run_mount_cvmfs-a_inside
-350-run_mount_cvmfs-a_with_host
-360-run_mount_cvmfs-s_inside
-370-run_mount_cvmfs-s_with_host
+300-run_mount-a_inside
+350-run_mount-a_with_host
+360-run_mount-s_inside
+370-run_mount-s_with_host
 380-run_setup_systemapps_inside
 390-run_setup_systemapps_with_host
 400-check_workspace

@@ -1,0 +1,116 @@
+#!/bin/bash
+### This file is part of CernVM 5. ###
+### Helper functions for CernVM 5 ###
+# TODO: Bash completion
+# logger
+log() {
+  echo "$1"
+}
+
+# For help
+usage() {
+  log "Usage: cernvm_config <command> <option>"
+  log
+  log "Command                 Description
+mount                   Used for mounting CernVM FS repositories
+        Options:  -a    Mounts every CernVM-FS specified in 90-cernvm.conf
+                  -s    Mounts cernvm-five.cern.ch for system applications
+                  -r    Mounts CernVM-FS repository [ -r <domain> ]
+                        e.g. cernvm_config mount sft.cern.ch
+
+setup                   Sets up PATH for system applications
+version                 Prints versions of CernVM 5 components"
+}
+
+command=$1
+
+### Mounting CernVM-FS repositories ###
+# Mounts single repo by domain
+mount_repository(){
+  local domain=$1
+  mkdir -p "/cvmfs/$domain"
+  mount -t cvmfs "$domain" "/cvmfs/$domain"
+  return $?
+}
+
+# mounts cvmfs-config.cern.ch and cernvm-five.cern.ch
+mount_systemarea(){
+  mkdir -p "/cvmfs/cvmfs-config.cern.ch"
+  mount -t cvmfs "cvmfs-config.cern.ch" "/cvmfs/cvmfs-config.cern.ch"
+  
+  mkdir -p "/cvmfs/cernvm-five.cern.ch"
+  mount -t cvmfs "cernvm-five.cern.ch" "/cvmfs/cernvm-five.cern.ch"
+  return $?
+}
+
+# Mounts all CernVM 5 default repos defined in 90-cernvm.conf
+mount_default(){
+  . /etc/cvmfs/default.d/90-cernvm.conf 
+  local repos=(${CVMFS_REPOSITORIES//,/ })
+  for domain in "${repos[@]}"
+  do
+    mkdir -p "/cvmfs/$domain" 
+    mount -t cvmfs "$domain" "/cvmfs/$domain"
+  done
+  return 0
+}
+
+case_mount() {
+  if ! ls /dev/fuse &>/dev/null; then
+   log "FUSE interface is not available!"
+   log "Map device into container or bindmount CernVM-FS from host"
+   log "Check https://github.com/cernvm/cernvm-five/blob/main/README.md for additional help"
+   exit 1
+fi
+
+if [ $# -eq 0 ]; then
+  log "No option specified"
+  exit 1
+fi
+
+while getopts 'r:dsh?' c
+do
+  case $c in
+    d) mount_default ;;
+    s) mount_systemarea ;;
+    r) mount_repository "$OPTARG" ;;
+    h | ? | *) usage ;;
+  esac
+done
+}
+
+### Functions for setting up environments ###
+# TODO: Provide default env with bash modules
+setup_default_env(){
+  log "NYI"
+}
+
+case_setup(){
+if [ $# -eq 0 ]; then
+  log "No option specified"
+  exit 1
+fi
+
+while getopts 'dh?' c
+do
+  case $c in
+    d) setup_default_env ;;
+    h | ? | *) usage ;;
+  esac
+done
+}
+
+print_version(){
+  log "$(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)"
+  log "$(rpm -iq --queryformat 'CernVM System: %{VERSION}\n' cernvm-system-default)"
+  log "$(rpm -iq --queryformat 'CernVM Kernel: %{VERSION}\n' cernvm-kernel-default)" &>/dev/null
+  log "$(rpm -iq --dbpath=/cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm --queryformat 'Mounted CernVM 5 System Applications: %{VERSION}\n' cernvm-system-cvmfs-default)" &>/dev/null
+}
+
+case "$command" in
+  mount) shift;  case_mount "$@"  ;;
+  setup) shift;  case_setup "$@"  ;; 
+  version) print_version ;;
+  -h | --help) usage  ;;
+  *) usage; log "No command specified"  ;;
+esac

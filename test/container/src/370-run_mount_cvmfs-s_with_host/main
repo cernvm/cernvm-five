@@ -1,6 +1,6 @@
 #!/bin/bash
-# runs mount_cvmfs -s with host CernVM FS, must return !=0
-cvm_test_name="run_mount_cvmfs-s_with_host"
+# runs mount -s with host CernVM FS, must return !=0
+cvm_test_name="run_mount-s_with_host"
 tags=("-h")
 cvm_run_test() {
   if ! run_docker_host $t/script.sh && ! run_podman_host $t/script.sh; then

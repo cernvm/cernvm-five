@@ -1,7 +1,7 @@
 #!/bin/bash
 apps=("nano" "vim" "ping" "wget" "strace" "tree" "diff" "cmp" "dnf" "ed" "patchelf")
-. /etc/cernvm/functions
-cernvm_config mount_cvmfs -s
+. /etc/cernvm/cernvm_env.sh
+cernvm_config mount -s
 
 fail=
 for a in "${apps[@]}"

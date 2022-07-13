@@ -1,6 +1,6 @@
 #!/bin/bash
-. ./etc/cernvm/functions
-cernvm_config mount_cvmfs -s
+. ./etc/cernvm/cernvm_env.sh
+cernvm_config mount -s
 cernvm_config setup_systemapps
 res=$?
 exit $res

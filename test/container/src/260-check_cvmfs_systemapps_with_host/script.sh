@@ -1,6 +1,6 @@
 #!/bin/bash
 apps=("nano" "vim" "ping" "wget" "strace" "tree" "diff" "cmp" "dnf" "ed" "patchelf")
-. /etc/cernvm/functions
+. /etc/cernvm/cernvm_env.sh
 fail=
 for a in "${apps[@]}"
 do

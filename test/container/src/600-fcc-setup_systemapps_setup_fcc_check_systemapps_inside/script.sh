@@ -1,7 +1,7 @@
 #!/bin/bash
-. ./etc/cernvm/functions
+. ./etc/cernvm/cernvm_env.sh
 . ./etc/cernvm/systemapps
-cernvm_config mount_cvmfs -a
+cernvm_config mount -a
 cernvm_config setup_systemapps
 . /cvmfs/sw.hsf.org/spackages4/key4hep-stack/release-2021-10-29-ip7764o/x86_64-centos8-gcc8.4.1-opt/setup.sh
 

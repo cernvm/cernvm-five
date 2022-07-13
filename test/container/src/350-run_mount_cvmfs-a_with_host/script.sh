@@ -1,5 +1,5 @@
 #!/bin/bash
-. ./etc/cernvm/functions
-cernvm_config mount_cvmfs -a
+. ./etc/cernvm/cernvm_env.sh
+cernvm_config mount -a
 res=$?
 exit $res
