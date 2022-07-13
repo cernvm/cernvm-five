@@ -15,8 +15,8 @@ dnf install -y --installroot=$BUILD_DIR --releasever=/ --nodocs http://ecsft.cer
 
 # Sourceing cernvm_config, set banner and titel of terminal
 # TODO: Use bash profile
-echo "# Source CernVM 5 specific functions. Set banner and terminal title
+echo "# Source CernVM 5 specific environment. Set banner and terminal title
 # https://github.com/cernvm/cernvm-five
-. /etc/cernvm/functions && set_banner && set_titel" >> $BUILD_DIR/$HOME/.bashrc
+. /etc/cernvm/cernvm_env.sh && set_banner && set_titel" >> $BUILD_DIR/$HOME/.bashrc
 
 dnf -y --installroot=$BUILD_DIR clean all
