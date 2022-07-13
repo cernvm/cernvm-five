@@ -9,7 +9,7 @@ export PATH="$PATH:/cvmfs/cernvm-five.cern.ch/systemapps/usr/local/sbin:/cvmfs/c
 alias dnf='wrapped_dnf'
 wrapped_dnf() {
     LLP=${LD_LIBRARY_PATH}
-    export LD_LIBRARY_PATH=""
+    unset LD_LIBRARY_PATH
     /usr/bin/dnf "$@"
     res=$?
     export LD_LIBRARY_PATH=${LLP}
@@ -17,7 +17,11 @@ wrapped_dnf() {
 }
 
 alias yum='/usr/bin/dnf "$@"'
-alias cernvm_config='bash /etc/cernvm/cernvm_config "$@"'
+
+cernvm_config(){
+  bash /etc/cernvm/cernvm_config "$@"
+  return $?
+}
 
 set_banner() {
 echo -e "\033[32mCernVM Appliance v5\033[0m" 

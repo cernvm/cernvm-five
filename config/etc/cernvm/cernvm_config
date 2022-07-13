@@ -13,7 +13,7 @@ usage() {
   log
   log "Command                 Description
 mount                   Used for mounting CernVM FS repositories
-        Options:  -a    Mounts every CernVM-FS specified in 90-cernvm.conf
+        Options:  -a    Mounts every CernVM-FS repository specified in 90-cernvm.conf
                   -s    Mounts cernvm-five.cern.ch for system applications
                   -r    Mounts CernVM-FS repository [ -r <domain> ]
                         e.g. cernvm_config mount sft.cern.ch
@@ -52,7 +52,7 @@ mount_default(){
     mkdir -p "/cvmfs/$domain" 
     mount -t cvmfs "$domain" "/cvmfs/$domain"
   done
-  return 0
+  return $?
 }
 
 case_mount() {
@@ -68,10 +68,10 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-while getopts 'r:dsh?' c
+while getopts 'r:ash?' c
 do
   case $c in
-    d) mount_default ;;
+    a) mount_default ;;
     s) mount_systemarea ;;
     r) mount_repository "$OPTARG" ;;
     h | ? | *) usage ;;
@@ -83,6 +83,7 @@ done
 # TODO: Provide default env with bash modules
 setup_default_env(){
   log "NYI"
+  exit 1
 }
 
 case_setup(){
@@ -107,6 +108,7 @@ print_version(){
   if [ -d /cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm ]; then
     log "$(rpm -iq --dbpath=/cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm --queryformat 'Mounted CernVM 5 System Applications: %{VERSION}\n' cernvm-system-cvmfs-default)" &>/dev/null
   fi
+  exit 0
 }
 
 case "$command" in
