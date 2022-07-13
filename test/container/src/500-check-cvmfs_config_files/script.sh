@@ -1,6 +1,6 @@
 #!/bin/bash
 # Array files for all checked files in image
-files=("/etc/cernvm/cernvm_env.sh" "/etc/cvmfs/config.d/cernvm-five.cern.ch.conf" "/etc/cvmfs/default.d/90-cernvm.conf" "/etc/cvmfs/keys/cernvm-five.cern.ch.pub")
+files=("/etc/cernvm/cernvm_env.sh" "/etc/cernvm/cernvm_config" "/etc/cvmfs/config.d/cernvm-five.cern.ch.conf" "/etc/cvmfs/default.d/90-cernvm.conf" "/etc/cvmfs/keys/cernvm-five.cern.ch.pub")
 fail= 
 for f in "${files[@]}"
 do
