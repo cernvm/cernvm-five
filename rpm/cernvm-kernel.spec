@@ -15,6 +15,7 @@ Requires: sudo
 Requires: dracut
 Requires: qemu-guest-agent
 Requires: openssh-server
+Requires: cloud-init
 
 %description
 Meta-package including packages to build a kernel-enabled CernVM 5 Image
