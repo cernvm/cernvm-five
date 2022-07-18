@@ -20,3 +20,12 @@ echo "# Source CernVM 5 specific environment. Set banner and terminal title
 . /etc/cernvm/cernvm_env.sh && set_banner && set_titel" >> $BUILD_DIR/$HOME/.bashrc
 
 dnf -y --installroot=$BUILD_DIR clean all
+
+# Installing patchELF into base layer image
+mkdir -p /tmp_build/patchelf && cd /tmp_build/patchelf
+git clone https://github.com/NixOS/patchelf
+cd /patchelf
+./bootstrap.sh
+./configure --prefix=$BUILD_DIR
+make
+make install
