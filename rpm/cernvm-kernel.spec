@@ -1,6 +1,6 @@
 Summary: CernVM 5 VM System
 Name: cernvm-kernel-default
-Version: 1.0.0
+Version: 1.0.1
 Group: System/Middleware
 Release: 1
 Group: Applications/System
