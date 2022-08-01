@@ -1,0 +1,27 @@
+### This file is part of CernVM 5. ### 
+### Used to build root file system for CernVM 5 full VM images
+ARG BASE=registry.cern.ch/cernvm/five/cernvm-five:latest
+FROM $BASE
+USER root
+RUN dnf update -y
+
+# Install cernvm-kernel-default RPM and enable services
+RUN dnf install -y http://ecsft.cern.ch/dist/cernvm/five/rpms/latest/cernvm-kernel-default-latest-noarch.rpm && \
+    systemctl enable NetworkManager && \
+    systemctl unmask systemd-remount-fs.service && \
+    systemctl unmask getty.target
+
+### Create init ram disk
+RUN dracut -v --no-hostonly --regenerate-all --force
+
+### Create links to kernel and bootloader
+WORKDIR /boot
+RUN ln -s $(find /boot/ -name 'linux') vmlinuz && \
+    ln -s $(find /boot/ -name 'initrd') initrd.img
+
+### Copy configuration
+COPY /config/sysconfig.cfg /boot
+
+### Remove SELinux policys
+RUN rpm -e selinux-policy-minimum selinux-policy --nodeps
+RUN rm -rf /etc/selinux/targeted /etc/selinux/config
