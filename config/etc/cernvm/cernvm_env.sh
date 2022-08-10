@@ -1,3 +1,4 @@
+#!/bin/bash
 ### This file is part of CernVM 5. ###
 #### Environment and Aliases for CernVM 5 ###
 # TODO:  /etc/bash_completion.d/
@@ -28,7 +29,9 @@ echo -e "\033[32mCernVM Appliance v5\033[0m"
 echo "$(rpm -iq --queryformat 'CernVM Config: %{VERSION}\n' cernvm-config-default)"
 echo "https://github.com/cernvm/cernvm-five"
 }
+set_banner
 
 set_titel() {
   echo -e "\e]0;"; echo -n CernVM 5; echo -ne "\007"
 }
+set_titel

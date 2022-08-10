@@ -7,6 +7,7 @@ WORKDIR /
 ### Install builder packages ###
 COPY /system/install/dnf.conf /etc/dnf/dnf.conf
 RUN dnf update && dnf clean all 
+RUN dnf install dnf-plugins-core
 RUN dnf install autoconf \
     epel-release  \
     file          \
@@ -39,12 +40,14 @@ RUN mkdir build
 ### Install CernVM-FS, HEP_OSlibs and dnf into /build ###
 COPY /system/install/install_cvmfs.sh /
 RUN bash install_cvmfs.sh
+WORKDIR /
 
 ### Add rPath to ELF executables ###
 COPY /system/install/patch.sh /
-RUN bash patch.sh $BUILD_DIR 
+RUN bash patch.sh $BUILD_DIR
+WORKDIR /
 
-### Create mountpoints
+### Create mountpoints ###
 RUN mkdir $BUILD_DIR/workspace
 RUN mkdir $BUILD_DIR/data
 
@@ -57,7 +60,7 @@ LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu rad
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing CernVM-FS and HEP_OSlibs"
 EXPOSE 8888
-WORKDIR /
 RUN dnf -y clean all
 STOPSIGNAL SIGTERM
+WORKDIR /
 CMD [ "bash" ]

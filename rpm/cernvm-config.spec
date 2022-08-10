@@ -25,14 +25,14 @@ mkdir -p %{buildroot}/etc/cvmfs/config.d/
 mkdir -p %{buildroot}/etc/cvmfs/default.d/
 mkdir -p %{buildroot}/etc/cvmfs/keys/
 
-install -m 444 %{SOURCE0} %{buildroot}/etc/cernvm/cernvm_env.sh
+install -m 444 %{SOURCE0} %{buildroot}/etc/profile.d/cernvm_env.sh
 install -m 444 %{SOURCE1} %{buildroot}/etc/cvmfs/default.d/90-cernvm.conf
 install -m 444 %{SOURCE2} %{buildroot}/etc/cvmfs/config.d/cernvm-five.cern.ch.conf
 install -m 444 %{SOURCE3} %{buildroot}/etc/cvmfs/keys/cernvm-five.cern.ch.pub
 install -m 444 %{SOURCE4} %{buildroot}/etc/cernvm/cernvm_config
 
 %files
-/etc/cernvm/cernvm_env.sh
+/etc/profile.d/cernvm_env.sh
 /etc/cvmfs/default.d/90-cernvm.conf
 /etc/cvmfs/config.d/cernvm-five.cern.ch.conf
 /etc/cvmfs/keys/cernvm-five.cern.ch.pub
