@@ -20,6 +20,7 @@ Contains default configuration for CernVM 5 container images
 
 %install
 
+mkdir -p %{buildroot}/etc/profile.d/
 mkdir -p %{buildroot}/etc/cernvm/
 mkdir -p %{buildroot}/etc/cvmfs/config.d/
 mkdir -p %{buildroot}/etc/cvmfs/default.d/
