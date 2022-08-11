@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-. ./etc/cernvm/cernvm_env.sh
+. ./etc/profile.d/cernvm_env.sh
 cernvm_config mount -a
 source source /cvmfs/sw.hsf.org/spackages4/key4hep-stack/release-2021-10-29-ip7764o/x86_64-centos8-gcc8.4.1-opt/setup.sh
 mkdir -p test_whizard/Z_mumu; cd test_whizard/Z_mumu

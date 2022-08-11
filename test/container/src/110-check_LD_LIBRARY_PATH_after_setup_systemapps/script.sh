@@ -1,5 +1,5 @@
 #!/bin/bash
-. ./etc/cernvm/cernvm_env.sh
+. ./etc/profile.d/cernvm_env.sh
 echo $PATH
 
 if [[  "$LD_LIBRARY_PATH" != "" ]]; then

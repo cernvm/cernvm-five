@@ -1,5 +1,5 @@
 #!/bin/bash
-. ./etc/cernvm/cernvm_env.sh
+. ./etc/profile.d/cernvm_env.sh
 . ../systemapps
 . /cvmfs/sw.hsf.org/spackages4/key4hep-stack/release-2021-10-29-ip7764o/x86_64-centos8-gcc8.4.1-opt/setup.sh
 

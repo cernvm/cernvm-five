@@ -1,6 +1,6 @@
 #!/bin/bash
 . ../systemapps
-. /etc/cernvm/cernvm_env.sh
+. /etc/profile.d/cernvm_env.sh
 fail=
 for a in "${apps[@]}"
 do
