@@ -1,55 +1,89 @@
 #!/bin/bash
-# Sets up rPath for all ELF executable /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-
+# This file is part of CernVM 5. #
+# Sets up rpath for all ELF executable
 if ! which patchelf; then
   echo "patchelf not installed"
   exit 1
 fi 
 
-# Prefix in which target ELFs are installed, for e.g. /build
-PREFIX=$1
-if [ -z $PREFIX ]; then
-  echo "Enter prefix"
-  exit 1
+# Scratch directory or prefix, e.g. "/build". Default "/".
+ROOT=$1
+if [[ -z $ROOT ]];then 
+  ROOT="/"
 fi
 
-# final library location for e.g. / or /cvmfs/cernvm-five.cern.ch/prefix
-LIBS=$2
-if [ ! -z $LIBS ]; then
-  LIB=""
+# Final location of lib and lib64, e.g. "/cvmfs.cern.ch/cernvm-five.cern.ch/prefix". Default /lib and /lib64. 
+LOC=$2
+if [[ -z $LOC ]];then 
+  LOC=""
 fi
 
 is_elf() {
-  if file $1 | grep "ELF 64-bit" || file $1 | grep "ELF 32-bit"; then
+  local f=$1
+  if [[ $(file $f | awk '{print $2}') == "ELF" ]]; then
     return 0
-  fi
-  echo "$1 is not an ELF executable"
-  echo
-  return 1
+fi
+return 1
+}
+
+is_64bit() {
+  local f=$1
+  if [[ $(file $f | awk '{print $3}') == "64-bit" ]]; then
+    return 0
+fi
+return 1
+}
+
+is_32bit() {
+  local f=$1
+  if [[ $(file $f | awk '{print $3}') == "32-bit" ]]; then
+    return 0
+fi
+return 1
 }
 
 needs_rpath() {
-  if [[ $(patchelf --print-rpath $1) == "" ]]; then
+  local f=$1
+  if [[ $(patchelf --print-rpath $f) == "" ]]; then
     return 0
   fi
-  echo
-  echo "rPath is already set up for $1"
   return 1
 }
 
-set_rpath() {
-  patchelf --force-rpath --set-rpath $LIBS/lib:$LIBS/lib64 $1
+is_statically_linked() {
+  local f=$1
+  ldd $f | grep 'statically linked'
   return $?
 }
+  
 
-# Iterates all prefix files in /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin/sbin /bin and setting up rPath if needed
-for f in  $PREFIX/usr/local/sbin/* $PREFIX/usr/local/bin/* $PREFIX/usr/sbin/* $PREFIX/usr/bin/* $PREFIX/sbin/* $PREFIX/bin/*; do
-    if is_elf $f && needs_rpath $f; then
-      set_rpath $f
-      echo "rPath set for $f"
-      echo
+set_rpath() {
+  local f=$1
+  if is_elf $f && needs_rpath $f; then
+
+    if is_statically_linked $f; then
+      echo "${f} is statically linked"
+      return 0
     fi
+  
+    if is_64bit $f; then
+      echo "setting up rpath ${LOC}/lib64:${LOC}/lib for $f"
+      patchelf --force-rpath --set-rpath "${LOC}/lib64:${LOC}/lib" $f
+      return $?
+    fi
+
+    if is_32bit $f; then
+      echo "setting up rpath ${LOC}/lib for $f"
+      patchelf --force-rpath --set-rpath "${LOC}/lib" $f
+      return $?
+    fi
+  fi
+}
+
+# Set up rpath
+# TODO: Use -exec
+for f in $(find $ROOT -type f -executable)
+do
+  echo "checking $f"
+  set_rpath $f
 done
-
-exit 0
-
