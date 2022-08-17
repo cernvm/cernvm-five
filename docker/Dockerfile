@@ -1,11 +1,11 @@
 ### This file is part of CernVM 5. ### 
 ### Build Stage, preparing a EL8-based builder container ###
-FROM docker.io/library/rockylinux:8 AS builder
+FROM gitlab-registry.cern.ch/linuxsupport/cs9-base AS builder
 ENV BUILD_DIR=/build 
 WORKDIR /
 
 ### Install builder packages ###
-COPY /system/install/dnf.conf /etc/dnf/dnf.conf
+COPY /system/dnf.conf /etc/dnf/dnf.conf
 RUN dnf update && dnf clean all 
 RUN dnf install dnf-plugins-core
 RUN dnf install autoconf \
@@ -19,7 +19,7 @@ RUN dnf install autoconf \
     glibc-devel   \
     grep          \
     https://ecsft.cern.ch/dist/cvmfs/cvmfs-release/cvmfs-release-latest.noarch.rpm  \
-    https://linuxsoft.cern.ch/wlcg/centos8/x86_64/wlcg-repo-1.0.0-1.el8.noarch.rpm  \
+    https://linuxsoft.cern.ch/wlcg/el9/x86_64/wlcg-repo-1.0.0-1.el9.noarch.rpm      \
     libtool       \
     make          \
     wget          \
@@ -38,13 +38,13 @@ WORKDIR /
 RUN mkdir build
 
 ### Install CernVM-FS, HEP_OSlibs and dnf into /build ###
-COPY /system/install/install_cvmfs.sh /
+COPY /system/install_cvmfs.sh /
 RUN bash install_cvmfs.sh
 WORKDIR /
 
-### Add rPath to ELF executables ###
-COPY /system/install/patch.sh /
-RUN bash patch.sh $BUILD_DIR
+### Add rpath to ELF executables ###
+COPY config/etc/cernvm/patch.sh /
+RUN bash patch.sh -y -r $BUILD_DIR 
 WORKDIR /
 
 ### Create mountpoints ###
@@ -54,13 +54,12 @@ RUN mkdir $BUILD_DIR/data
 ### Final Stage ###
 ### Copying /build to scratch ###
 FROM scratch AS cernvm
-# TODO: ONBUILD RUN patchelf ...
+ONBUILD RUN bash /etc/cernvm/patch.sh -y 
 COPY --from=builder /build /
 LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing CernVM-FS and HEP_OSlibs"
 EXPOSE 8888
-RUN dnf -y clean all
 STOPSIGNAL SIGTERM
 WORKDIR /
 CMD [ "bash" ]

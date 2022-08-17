@@ -1,6 +1,6 @@
 Summary: CernVM 5 config files and scripts
 Name: cernvm-config-default
-Version: 1.0.2
+Version: 1.0.3
 Release: 1
 Group: Applications/System
 Source0: cernvm_env.sh
@@ -8,6 +8,7 @@ Source1: 90-cernvm.conf
 Source2: cernvm-five.cern.ch.conf
 Source3: cernvm-five.cern.ch.pub
 Source4: cernvm_config
+Source5: patch.sh
 BuildArch: noarch
 License: BSD
 
@@ -31,6 +32,7 @@ install -m 444 %{SOURCE1} %{buildroot}/etc/cvmfs/default.d/90-cernvm.conf
 install -m 444 %{SOURCE2} %{buildroot}/etc/cvmfs/config.d/cernvm-five.cern.ch.conf
 install -m 444 %{SOURCE3} %{buildroot}/etc/cvmfs/keys/cernvm-five.cern.ch.pub
 install -m 444 %{SOURCE4} %{buildroot}/etc/cernvm/cernvm_config
+install -m 444 %{SOURCE5} %{buildroot}/etc/cernvm/patch.sh
 
 %files
 /etc/profile.d/cernvm_env.sh
@@ -38,5 +40,6 @@ install -m 444 %{SOURCE4} %{buildroot}/etc/cernvm/cernvm_config
 /etc/cvmfs/config.d/cernvm-five.cern.ch.conf
 /etc/cvmfs/keys/cernvm-five.cern.ch.pub
 /etc/cernvm/cernvm_config
+/etc/cernvm/patch.sh
 
 %changelog
