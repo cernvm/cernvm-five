@@ -1,6 +1,6 @@
 Summary: CernVM 5 config files and scripts
 Name: cernvm-config-default
-Version: 1.0.3
+Version: 1.2
 Release: 1
 Group: Applications/System
 Source0: cernvm_env.sh
