@@ -18,7 +18,7 @@ Requires: diffutils
 Requires: ed
 Requires: bc
 Requires: nano
-Requires: chrpath2
+Requires: chrpath
 Requires: tar
 Requires: grep
 Requires: emacs
