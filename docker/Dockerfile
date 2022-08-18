@@ -54,9 +54,10 @@ RUN mkdir $BUILD_DIR/data
 ### Final Stage ###
 ### Copying /build to scratch ###
 FROM scratch AS cernvm
-ONBUILD RUN bash /etc/cernvm/patch.sh -y 
+ONBUILD RUN echo "Consider to include /etc/cernvm/patch.sh in your build."
 COPY --from=builder /build /
-LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Radu Popescu radu.popescu@cern.ch, Jakob Blomer jblomer@cern.ch" 
+LABEL FORUM="https://cernvm-forum.cern.ch/"
+LABEL MAINTAINER="Jakob Eberhardt jakob.karl.eberhardt@cern.ch, Jakob Blomer jblomer@cern.ch" 
 LABEL io.k8s.display-name="CernVM" 
 LABEL io.k8s.description="A container image providing CernVM-FS and HEP_OSlibs"
 EXPOSE 8888

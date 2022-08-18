@@ -1,5 +1,4 @@
 #!/bin/bash
-. ../systemapps
 . /etc/profile.d/cernvm_env.sh
 fail=
 for a in "${apps[@]}"

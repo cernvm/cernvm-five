@@ -7,16 +7,21 @@ log() {
   echo "$1"
 }
 
+# CernVM 5 System Application CernVM-FS repository
+SYSTEM_APPLICATION_REPO="cernvm-five.cern.ch"
+
 # For help
 usage() {
   log "Usage: cernvm_config <command> <option>"
   log
   log "Command                 Description
 mount                   Used for mounting CernVM FS repositories
-        Options:  -a    Mounts every CernVM-FS repository specified in 90-cernvm.conf
-                  -s    Mounts cernvm-five.cern.ch for system applications
-                  -r    Mounts CernVM-FS repository [ -r <domain> ]
-                        e.g. cernvm_config mount sft.cern.ch
+        Options:  -r    Mounts CernVM-FS repository [ -r <domain> ]
+                        e.g. cernvm_config mount -r cvmfs-config.cern.ch -r sft.cern.ch
+                  -s    Mounts system applications repository (${SYSTEM_APPLICATION_REPO})
+                  -a    Mounts every CernVM-FS repository specified in 90-cernvm.conf
+                  -e    Mounts every CernVM-FS repository specified in CERNVM_USER_REPOS variable
+                        e.g. CERNVM_USER_REPOS='cvmfs-config.cern.ch, sft.cern.ch'                  
 
 setup                   Sets up PATH for system applications
 version                 Prints versions of CernVM 5 components"
@@ -24,22 +29,40 @@ version                 Prints versions of CernVM 5 components"
 
 command=$1
 
+# Checks if repo $1 is already mounted
+is_mounted() {
+  local domain=$1
+  mountpoint -q -- "/cvmfs/${domain}"
+  return $?
+}
+
 ### Mounting CernVM-FS repositories ###
 # Mounts single repo by domain
 mount_repository(){
   local domain=$1
-  mkdir -p "/cvmfs/$domain"
-  mount -t cvmfs "$domain" "/cvmfs/$domain"
-  return $?
+  if [ ! -d "/cvmfs/${domain}" ]; then
+      mkdir -p "/cvmfs/${domain}"
+      local created="true"
+    fi
+
+    if is_mounted $domain; then
+      log "${domain} is already mounted"
+      return 0
+    fi
+    
+    if ! mount -t cvmfs "${domain}" "/cvmfs/${domain}"; then
+      log "Could not mount ${domain}"
+      if [[ $created == "true" ]]; then
+        rmdir "/cvmfs/${domain}"
+      fi
+      return 1
+    fi
 }
 
-# mounts cvmfs-config.cern.ch and cernvm-five.cern.ch
+# mounts cvmfs-config.cern.ch and SYSTEM_APPLICATION_REPO
 mount_systemarea(){
-  mkdir -p "/cvmfs/cvmfs-config.cern.ch"
-  mount -t cvmfs "cvmfs-config.cern.ch" "/cvmfs/cvmfs-config.cern.ch"
-  
-  mkdir -p "/cvmfs/cernvm-five.cern.ch"
-  mount -t cvmfs "cernvm-five.cern.ch" "/cvmfs/cernvm-five.cern.ch"
+  mount_repository "cvmfs-config.cern.ch" 
+  mount_repository $SYSTEM_APPLICATION_REPO
   return $?
 }
 
@@ -49,52 +72,77 @@ mount_default(){
   local repos=(${CVMFS_REPOSITORIES//,/ })
   for domain in "${repos[@]}"
   do
-    mkdir -p "/cvmfs/$domain" 
-    mount -t cvmfs "$domain" "/cvmfs/$domain"
+    mount_repository $domain
   done
   return $?
 }
 
+# Mounts all CernVM-FS repositories specified in CERNVM_USER_REPOS
+mount_user_repos() {
+  if [[ -z $CERNVM_USER_REPOS ]]; then
+    log "No CernVM-FS repositories specified in CERNVM_USER_REPOS variable"
+    log "E.g. CERNVM_USER_REPOS='cvmfs-config.cern.ch,sft.cern.ch,fcc.cern.ch'"
+  fi
+
+  local repos=(${CERNVM_USER_REPOS//,/ })
+  for domain in "${repos[@]}"
+  do
+    mount_repository $domain
+  done
+}
+
 case_mount() {
-  if ! ls /dev/fuse &>/dev/null; then
-   log "FUSE interface is not available!"
-   log "Map device into container or bindmount CernVM-FS from host"
-   log "Check https://github.com/cernvm/cernvm-five/blob/main/README.md for additional help"
-   exit 1
-fi
+  if [ $# -eq 0 ]; then
+    log "No option specified"
+    exit 1
+  fi
 
-if [ $# -eq 0 ]; then
-  log "No option specified"
-  exit 1
-fi
-
-while getopts 'r:ash?' c
-do
-  case $c in
-    a) mount_default ;;
-    s) mount_systemarea ;;
-    r) mount_repository "$OPTARG" ;;
-    h | ? | *) usage ;;
-  esac
-done
+  while getopts 'r:aseh?' c
+  do
+    case $c in
+      a) mount_default ;;
+      s) mount_systemarea ;;
+      r) mount_repository "$OPTARG" ;;
+      e) mount_user_repos ;;
+      h | ? | *) usage ;;
+    esac
+  done
 }
 
 ### Functions for setting up environments ###
-# TODO: Provide default env with bash modules
-setup_default_env(){
-  log "NYI"
-  exit 1
-}
-
 case_setup(){
-if [ $# -eq 0 ]; then
-  log "No option specified"
-  exit 1
-fi
+  if [ $# -eq 0 ]; then
+    log "No option specified"
+    exit 1
+  fi
 
-while getopts 'dh?' c
+# TODO: Provide clean default env, e.g. with bash modules
+  setup_default_env(){
+    log "NYI"
+    exit 1
+  }
+
+# Sets up PATH for compatible System Application Area
+  setup_system_applications() {
+    if ! is_mounted $SYSTEM_APPLICATION_REPO; then
+      log "${SYSTEM_APPLICATION_REPO} needs to be mounted"
+      log "Run 'cernvm-config mount -s'"
+    fi
+
+    local str=$PATH
+    for loc in "usr/local/sbin" "usr/local/bin" "usr/sbin" "usr/bin";
+    do
+      str="$str:/cvmfs/${SYSTEM_APPLICATION_REPO}/$(uname -m)/$(rpm -iq --queryformat '%{VERSION}' cernvm-config-default)/${loc}"
+    done
+# TODO: How can we pass this to parent process without a using a file? 
+    echo $str
+    PATH=$str; export PATH
+  }
+
+while getopts 'sdhs?' c
 do
   case $c in
+    s) setup_system_applications ;;
     d) setup_default_env ;;
     h | ? | *) usage ;;
   esac
@@ -107,10 +155,7 @@ print_version(){
   if rpm -q cernvm-kernel-default; then
     log "$(rpm -iq --queryformat 'CernVM Kernel: %{VERSION}\n' cernvm-kernel-default)"
   fi
-
-  if [ -d /cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm ]; then
-    log "$(rpm -iq --dbpath=/cvmfs/cernvm-five.cern.ch/systemapps/var/lib/rpm --queryformat 'Mounted CernVM 5 System Applications: %{VERSION}\n' cernvm-system-cvmfs-default)" 2> /dev/null
-  fi
+  
   exit 0
 }
 

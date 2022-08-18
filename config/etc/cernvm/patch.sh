@@ -95,14 +95,15 @@ do
   esac
 done
 
+if [[ $CERNVM_SUPRESS_RPATH_PATCHING == "true" ]]; then 
+    echo "Environment is set to supress rpath patching"
+    echo "CERNVM_SUPRESS_RPATH_PATCHING=${CERNVM_SUPRESS_RPATH_PATCHING}"
+    exit 0
+  fi
+
 echo "Root directory: ${ROOT}"
 echo "rpath (64bit) : ${LOC}/lib64:${LOC}/lib"
 echo "rpath (32bit) : ${LOC}/lib"
-
-if [[ $CERNVM_SUPRESS_RPATH_PATCHING == "true" ]]; then 
-    echo "Environment is set to supress rpath patching"
-    exit 0
-  fi
 
 if [[ $QUIET == "false" ]]; then
   read -r -p "Proceed? [Y/n] " INPUT
