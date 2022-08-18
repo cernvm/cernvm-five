@@ -1,6 +1,6 @@
 Summary: CernVM 5 system applications meta-package for CVMFS
 Name: cernvm-system-cvmfs-default
-Version: 1.0.1
+Version: 1.2
 Group: System/Middleware
 Release: 1
 Group: Applications/System
@@ -18,9 +18,10 @@ Requires: diffutils
 Requires: ed
 Requires: bc
 Requires: nano
-Requires: chrpath
+Requires: chrpath2
 Requires: tar
 Requires: grep
+Requires: emacs
 
 %description
 Meta-package including packages to build a CernVM 5 system applications area on CernVM-FS.
