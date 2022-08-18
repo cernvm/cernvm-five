@@ -99,12 +99,12 @@ echo "Root directory: ${ROOT}"
 echo "rpath (64bit) : ${LOC}/lib64:${LOC}/lib"
 echo "rpath (32bit) : ${LOC}/lib"
 
-if [[ $QUIET == "false" ]]; then
-  if [[ $CERNVM_SUPRESS_RPATH_PATCHING == "true" ]]; then 
+if [[ $CERNVM_SUPRESS_RPATH_PATCHING == "true" ]]; then 
     echo "Environment is set to supress rpath patching"
     exit 0
   fi
-  
+
+if [[ $QUIET == "false" ]]; then
   read -r -p "Proceed? [Y/n] " INPUT
   echo $INPUT
   if ! [[ $INPUT == "Y" || $INPUT == "y" ]]; then 
