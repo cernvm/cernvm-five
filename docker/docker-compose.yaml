@@ -1,0 +1,19 @@
+### This file is part of CernVM 5. ###
+# Run 'docker-compose -f docker/docker-compose.yaml run cernvm' for basic CernVM 5 deployment 
+version: "3.7"
+services:
+  cernvm:
+    image:  registry.cern.ch/cernvm/five/cernvm-five:latest
+    container_name: "cernvm-five"
+    restart: "unless-stopped"
+    tty: true
+    stdin_open: true
+    ports:
+      - 127.0.0.1:8888:8888
+    volumes: 
+      - "~/cernvm/workspace/:/workspace:rw"
+      - "~/cernvm/data/:/data:rw"
+    devices:
+      - "/dev/fuse:/dev/fuse"
+    cap_add:
+      - SYS_ADMIN
